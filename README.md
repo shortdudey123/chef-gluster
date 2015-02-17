@@ -33,6 +33,12 @@ Attributes
     <td>Mount point to use for the Gluster volume</td>
     <td>None</td>
   </tr>
+  <tr>
+    <td><tt>['gluster']['client']['volumes'][VOLUME_NAME]['backup_server']</tt></td>
+    <td>String</td>
+    <td>Name of the backup volfile server to mount the client. When the first volfile server fails, then the server specified here is used as volfile server and is mounted by the client.</td>
+    <td>None</td>
+  </tr>
 </table>
 
 #### gluster::server
