@@ -18,22 +18,28 @@
 #
 
 # Mount any configured volumes
-node["gluster"]['client']["volumes"].each do |volume_name, volume_values|
+node['gluster']['client']['volumes'].each do |volume_name, volume_values|
   if volume_values['server'].nil? || volume_values['mount_point'].nil?
-    Chef::Log.warn("Missing configuration for volume #{volume_name}. Skipping...")
+    Chef::Log.warn("No config for volume #{volume_name}. Skipping...")
     return
   else
+    # Define a backup server for this volume, if available
+    mount_options = 'defaults,_netdev'
+    unless volume_values['backup_server'].nil?
+      mount_options += ',backupvolfile-server=' + volume_values['backup_server']
+    end
+
     # Ensure the mount point exists
     directory volume_values['mount_point'] do
       recursive true
       action :create
     end
-    
+
     # Mount the partition and add to /etc/fstab
     mount volume_values['mount_point'] do
       device "#{volume_values['server']}:/#{volume_name}"
-      fstype "glusterfs"
-      options "defaults,_netdev"
+      fstype 'glusterfs'
+      options mount_options
       pass 0
       action [:mount, :enable]
     end
