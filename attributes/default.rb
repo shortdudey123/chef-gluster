@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: gluster
-# Recipe:: client_install
+# Attributes:: default
 #
 # Copyright 2015, Biola University
 #
@@ -17,7 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe 'gluster::repository'
-
-# Install the client package
-package node['gluster']['client']['package']
+default['gluster']['version'] = '3.4'

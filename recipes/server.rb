@@ -2,7 +2,7 @@
 # Cookbook Name:: gluster
 # Recipe:: server
 #
-# Copyright 2014, Biola University
+# Copyright 2015, Biola University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,5 +17,5 @@
 # limitations under the License.
 #
 
-include_recipe "gluster::server_install"
-include_recipe "gluster::server_setup"
+include_recipe 'gluster::server_install'
+include_recipe 'gluster::server_setup'

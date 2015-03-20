@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: gluster
-# Recipe:: client_install
+# Resource:: mount
 #
 # Copyright 2015, Biola University
 #
@@ -17,7 +17,10 @@
 # limitations under the License.
 #
 
-include_recipe 'gluster::repository'
+actions :mount, :umount, :enable, :disable
+default_action :mount
 
-# Install the client package
-package node['gluster']['client']['package']
+attribute :name, :kind_of => String, :name_attribute => true
+attribute :server, :kind_of => String, :default => nil, :required => true
+attribute :backup_server, :kind_of => String, :default => nil
+attribute :mount_point, :kind_of => String, :default => nil, :required => true

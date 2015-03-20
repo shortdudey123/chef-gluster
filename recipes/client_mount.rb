@@ -2,7 +2,7 @@
 # Cookbook Name:: gluster
 # Recipe:: client_mount
 #
-# Copyright 2014, Biola University
+# Copyright 2015, Biola University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,10 @@
 # limitations under the License.
 #
 
-# Mount any configured volumes
+# This recipe can be used to mount Gluster volumes using client atttributes.
+#   It has been deprecated in favor of the gluster_mount LWRP and will be
+#   removed in a future update.
+
 node['gluster']['client']['volumes'].each do |volume_name, volume_values|
   if volume_values['server'].nil? || volume_values['mount_point'].nil?
     Chef::Log.warn("No config for volume #{volume_name}. Skipping...")

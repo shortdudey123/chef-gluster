@@ -2,7 +2,7 @@
 # Cookbook Name:: gluster
 # Recipe:: repository
 #
-# Copyright 2014, Biola University
+# Copyright 2015, Biola University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,21 +18,23 @@
 #
 
 case node['platform']
-when "ubuntu"
-  apt_repository "ubuntu-glusterfs-3.4" do
-    uri "http://ppa.launchpad.net/semiosis/ubuntu-glusterfs-3.4/ubuntu"
+when 'ubuntu'
+  include_recipe 'apt::default'
+
+  apt_repository "glusterfs-#{node['gluster']['version']}" do
+    uri "http://ppa.launchpad.net/gluster/glusterfs-#{node['gluster']['version']}/ubuntu"
     distribution node['lsb']['codename']
-    components ["main"]
-    keyserver "keyserver.ubuntu.com"
-    key "774BAC4D"
+    components ['main']
+    keyserver 'keyserver.ubuntu.com'
+    key '3FE869A9'
     deb_src true
     not_if do
-      File.exists?("/etc/apt/sources.list.d/ubuntu-glusterfs-3.4.list")
+      File.exist?("/etc/apt/sources.list.d/glusterfs-#{node['gluster']['version']}.list")
     end
   end
-when "redhat", "centos"
-  yum_repository "glusterfs" do
-    url "http://download.gluster.org/pub/gluster/glusterfs/3.4/LATEST/EPEL.repo/epel-$releasever/$basearch/"
+when 'redhat', 'centos'
+  yum_repository 'glusterfs' do
+    url "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/EPEL.repo/epel-$releasever/$basearch/"
     gpgcheck false
     action :create
   end

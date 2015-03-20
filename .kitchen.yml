@@ -6,11 +6,12 @@ provisioner:
   name: chef_zero
 
 platforms:
+  - name: ubuntu-14.04
   - name: ubuntu-12.04
   - name: centos-6.5
 
 suites:
-  - name: client
+  - name: default
     run_list:
       - recipe[gluster::default]
     attributes:

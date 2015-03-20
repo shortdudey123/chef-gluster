@@ -2,7 +2,7 @@
 # Cookbook Name:: gluster
 # Recipe:: server_install
 #
-# Copyright 2014, Biola University
+# Copyright 2015, Biola University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe "gluster::repository"
+include_recipe 'gluster::repository'
 
 # Install dependencies
 node['gluster']['server']['dependencies'].each do |d|
@@ -28,6 +28,6 @@ end
 package node['gluster']['server']['package']
 
 # Make sure the service is started
-service "glusterd" do
+service 'glusterd' do
   action [:enable, :start]
 end
