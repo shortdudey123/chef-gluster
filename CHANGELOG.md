@@ -5,6 +5,7 @@ v3.0.0 (2015-03-20)
 --------------------
 - Added a new `gluster_mount` LWRP
 - Deprecating `gluster::client_mount` recipe
+- Updated Ubuntu repo location
 
 v2.1.1 (2015-02-17)
 --------------------
