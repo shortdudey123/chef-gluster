@@ -26,7 +26,7 @@ Node attributes to specify volumes to mount. This has been deprecated in favor o
 ### gluster::server
 Node attributes to specify server volumes to create
 
-- `node['gluster']['server']['volumes']['brick_mount_path']` - default path to use for mounting bricks
+- `node['gluster']['server']['brick_mount_path']` - default path to use for mounting bricks
 - `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['sdb', 'sdc'])
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['allowed_hosts']` - an optional array of IP addresses to allow access to the volume
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['disks']` - an optional array of disks to put bricks on (for example, ['sdb', 'sdc']); by default the cookbook will use the first x number of disks, equal to the replica count
