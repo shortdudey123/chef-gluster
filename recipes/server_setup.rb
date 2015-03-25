@@ -108,7 +108,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       case volume_values['volume_type']
       when 'replicated'
         # Ensure the trusted pool has the correct number of bricks available
-        if brick_count != volume_values['replica_count']
+        if brick_count < volume_values['replica_count']
           Chef::Log.warn("Correct number of bricks not available for volume #{volume_name}. Skipping...")
           next
         else
