@@ -69,7 +69,12 @@ def mount_options
   # Define a backup server for this volume, if available
   options = 'defaults,_netdev'
   unless new_resource.backup_server.nil?
-    options += ',backupvolfile-server=' + new_resource.backup_server
+    case
+      when new_resource.backup_server.class == String
+        options += ',backupvolfile-server=' + new_resource.backup_server
+      when new_resource.backup_server.class == Array
+        options += ',backupvolfile-server=' + new_resource.backup_server.join(",backupvolfile-server=")
+    end
   end
   options
 end

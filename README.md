@@ -20,7 +20,7 @@ Attributes
 Node attributes to specify volumes to mount. This has been deprecated in favor of using the 'gluster_mount' LWRP.
 
 - `node['gluster']['client']['volumes'][VOLUME_NAME]['server']` - server to connect to
-- `node['gluster']['client']['volumes'][VOLUME_NAME]['backup_server']` - name of the backup volfile server to mount the client. When the first volfile server fails, then the server specified here is used as volfile server and is mounted by the client.
+- `node['gluster']['client']['volumes'][VOLUME_NAME]['backup_server']` - name of the backup volfile server to mount the client. When the first volfile server fails, then the server specified here is used as volfile server and is mounted by the client. This can be a String or Array of Strings.
 - `node['gluster']['client']['volumes'][VOLUME_NAME]['mount_point']` - mount point to use for the Gluster volume
 
 ### gluster::server
@@ -44,6 +44,15 @@ Use the gluster_mount LWRP to mount volumes on clients:
 gluster_mount 'volume_name' do
   server 'gluster1.example.com'
   backup_server 'gluster2.example.com'
+  mount_point '/mnt/gluster/volume_name'
+  action [:mount, :enable]
+end
+```
+
+```ruby
+gluster_mount 'volume_name' do
+  server 'gluster1.example.com'
+  backup_server ['gluster2.example.com', 'gluster3.example.com']
   mount_point '/mnt/gluster/volume_name'
   action [:mount, :enable]
 end
