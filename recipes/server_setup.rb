@@ -61,6 +61,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       lvm_volumes = volume_values.attribute?('lvm_volumes') ? volume_values['lvm_volumes'] : node['gluster']['server']['lvm_volumes'].take(volume_values['replica_count'])
       lvm_volumes.each do |v|
         directory "#{node['gluster']['server']['brick_mount_path']}/#{v}/#{volume_name}" do
+          recursive true
           action :create
         end
         bricks << "#{node['gluster']['server']['brick_mount_path']}/#{v}/#{volume_name}"
