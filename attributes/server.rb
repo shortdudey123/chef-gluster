@@ -17,12 +17,14 @@
 # limitations under the License.
 #
 
-# Server package
+# Server package and servicename
 case node['platform']
 when 'ubuntu'
   default['gluster']['server']['package'] = 'glusterfs-server'
+  default['gluster']['server']['servicename'] = 'glusterfs-server'
 when 'redhat', 'centos'
   default['gluster']['server']['package'] = 'glusterfs-server'
+  default['gluster']['server']['servicename'] = 'glusterd'
 end
 
 # Package dependencies
