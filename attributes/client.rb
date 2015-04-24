@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-# Gluster volumes to mount
+# Client package
 case node['platform']
 when 'ubuntu'
   default['gluster']['client']['package'] = 'glusterfs-client'
@@ -25,4 +25,5 @@ when 'redhat', 'centos'
   default['gluster']['client']['package'] = 'glusterfs'
 end
 
+# Gluster volumes to mount
 default['gluster']['client']['volumes'] = []

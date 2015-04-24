@@ -28,6 +28,6 @@ end
 package node['gluster']['server']['package']
 
 # Make sure the service is started
-service 'glusterd' do
+service node['gluster']['server']['servicename'] do
   action [:enable, :start]
 end
