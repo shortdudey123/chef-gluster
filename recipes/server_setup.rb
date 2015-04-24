@@ -24,7 +24,7 @@ if node['gluster']['server'].attribute?('disks')
     if `fdisk -l 2> /dev/null | grep '/dev/#{d}1'`.empty?
       # Pass commands to fdisk to create a new partition
       bash 'create partition' do
-        code '(echo n; echo p; echo 1; echo; echo; echo w) | fdisk /dev/#{d}'
+        code "(echo n; echo p; echo 1; echo; echo; echo w) | fdisk /dev/#{d}"
         action :run
       end
       
