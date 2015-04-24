@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-default['gluster']['version'] = '3.5'
+default['gluster']['version'] = '3.4'
