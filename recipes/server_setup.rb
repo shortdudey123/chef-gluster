@@ -76,6 +76,8 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         bricks << "#{node['gluster']['server']['brick_mount_path']}/#{d}1/#{volume_name}"
       end
     end
+    # Save the array of bricks to the node's attributes
+    node.set['gluster']['server']['bricks'] = bricks
   end
 
   # Only continue if the node is the first peer in the array
@@ -169,6 +171,3 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     end
   end
 end
-
-# Save the array of bricks to the node's attributes
-node.set['gluster']['server']['bricks'] = bricks
