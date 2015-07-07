@@ -88,6 +88,8 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         execute "gluster peer probe #{peer}" do
           action :run
           not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
+          retries node['gluster']['server']['peer_retries']
+          retry_delay node['gluster']['server']['peer_retry_delay']
         end
       end
     end
