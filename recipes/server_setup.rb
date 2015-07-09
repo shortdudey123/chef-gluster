@@ -119,8 +119,8 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
           next
         else
           options = "replica #{volume_values['replica_count']}"
-          volume_bricks.each do |peer, bricks|
-            options << " #{peer}:#{bricks.first}"
+          volume_bricks.each do |peer, vbricks|
+            options << " #{peer}:#{vbricks.first}"
           end
         end
       when 'distributed-replicated'
@@ -131,8 +131,8 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         else
           options = "replica #{volume_values['replica_count']}"
           (1..volume_values['replica_count']).each do |i|
-            volume_bricks.each do |peer, bricks|
-              options << " #{peer}:#{bricks[i - 1]}"
+            volume_bricks.each do |peer, vbricks|
+              options << " #{peer}:#{vbricks[i - 1]}"
             end
           end
         end
