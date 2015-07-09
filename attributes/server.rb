@@ -45,5 +45,5 @@ default['gluster']['server']['volumes'] = {}
 default['gluster']['server']['bricks'] = []
 
 # Retry delays for attempting peering
-default['gluster']['server']['peer_retries'] = 10
-default['gluster']['server']['peer_retry_delay'] = 3
+default['gluster']['server']['peer_retries'] = 0
+default['gluster']['server']['peer_retry_delay'] = 10
