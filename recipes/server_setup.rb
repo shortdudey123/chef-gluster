@@ -27,7 +27,7 @@ if node['gluster']['server'].attribute?('disks')
         code "(echo n; echo p; echo 1; echo; echo; echo w) | fdisk /dev/#{d}"
         action :run
       end
-      
+
       # Format the new partition
       execute 'format partition' do
         command "mkfs.xfs -i size=512 /dev/#{d}1"
@@ -97,7 +97,8 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       # Create a hash of peers and their bricks
       volume_bricks = {}
       brick_count = 0
-      volume_values['peers'].each do |peer|
+      peers = volume_values.attribute?('peer_names') ? volume_values['peer_names'] : volume_values['peers']
+      peers.each do |peer|
         chef_node = Chef::Node.find_or_create(peer)
         if chef_node['gluster']['server'].attribute?('bricks')
           peer_bricks = chef_node['gluster']['server']['bricks'].select { |brick| brick.include? volume_name }
@@ -134,7 +135,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
           end
         end
       end
-      
+
       execute "gluster volume create #{volume_name} #{options}" do
         action :run
       end
@@ -167,7 +168,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       execute "gluster volume quota #{volume_name} limit-usage / #{volume_values['quota']}" do
         action :run
         not_if "egrep '^features.limit-usage=/:#{volume_values['quota']}$' /var/lib/glusterd/vols/#{volume_name}/info"
-      end      
+      end
     end
   end
 end
