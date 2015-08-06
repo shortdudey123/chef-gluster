@@ -114,9 +114,8 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       case volume_values['volume_type']
       when 'replicated'
         # Ensure the trusted pool has the correct number of bricks available
-        requiredBricks = (volume_values['replica_count'] * volume_values['peers'].count)
-        if brick_count != requiredBricks
-          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{requiredBricks} required for volume #{volume_name}. Skipping...")
+        if brick_count < volume_values['replica_count']
+          Chef::Log.warn("Correct number of bricks not available for volume #{volume_name}. Skipping...")
           next
         else
           options = "replica #{volume_values['replica_count']}"
@@ -126,8 +125,9 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         end
       when 'distributed-replicated'
         # Ensure the trusted pool has the correct number of bricks available
-        if brick_count != (volume_values['replica_count'] * volume_values['peers'].count)
-          Chef::Log.warn("Correct number of bricks not available for volume #{volume_name}. Skipping...")
+        requiredBricks = (volume_values['replica_count'] * volume_values['peers'].count)
+        if brick_count != requiredBricks
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{requiredBricks} required for volume #{volume_name}. Skipping...")
           next
         else
           options = "replica #{volume_values['replica_count']}"
