@@ -54,7 +54,7 @@ end
 bricks = []
 node['gluster']['server']['volumes'].each do |volume_name, volume_values|
   # If the node is configured as a peer for the volume, create directories to use as bricks
-  if volume_values['peers'].include? node['fqdn']
+  if volume_values['peers'].include?(node['fqdn']) || volume_values['peers'].include?(node['hostname'])
     # If using LVM
     if volume_values.attribute?('lvm_volumes') || node['gluster']['server'].attribute?('lvm_volumes')
       # Use either configured LVM volumes or default LVM volumes
@@ -81,10 +81,10 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
   end
 
   # Only continue if the node is the first peer in the array
-  if volume_values['peers'].first == node['fqdn']
+  if volume_values['peers'].first == node['fqdn'] || volume_values['peers'].first == node['hostname']
     # Configure the trusted pool if needed
     volume_values['peers'].each do |peer|
-      unless peer == node['fqdn']
+      unless peer == node['fqdn'] || peer == node['hostname']
         execute "gluster peer probe #{peer}" do
           action :run
           not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
@@ -115,7 +115,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       when 'replicated'
         # Ensure the trusted pool has the correct number of bricks available
         if brick_count < volume_values['replica_count']
-          Chef::Log.warn("Correct number of bricks not available for volume #{volume_name}. Skipping...")
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{volume_values['replica_count']} required for volume #{volume_name}. Skipping...")
           next
         else
           options = "replica #{volume_values['replica_count']}"
@@ -125,8 +125,9 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         end
       when 'distributed-replicated'
         # Ensure the trusted pool has the correct number of bricks available
-        if brick_count != (volume_values['replica_count'] * volume_values['peers'].count)
-          Chef::Log.warn("Correct number of bricks not available for volume #{volume_name}. Skipping...")
+        requiredBricks = (volume_values['replica_count'] * volume_values['peers'].count)
+        if brick_count != requiredBricks
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{requiredBricks} required for volume #{volume_name}. Skipping...")
           next
         else
           options = "replica #{volume_values['replica_count']}"
