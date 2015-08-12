@@ -143,6 +143,14 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         end
       end
 
+      #Ensure that all peers are actually in the correct state before we try to make the volume
+      peers.each do |peer|
+        bash "reprobe-peer" do
+          command "gluster peer detach #{peer}; gluster peer probe #{peer}"
+          only_if %Q{"execute "gluster peer status | grep -A 2 #{peer} | tail -1 | grep 'Peer in Cluster (Connected)'"}
+        end
+      end
+        
       execute "gluster volume create #{volume_name} #{options}" do
         action :run
       end
