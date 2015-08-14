@@ -2,6 +2,7 @@
 # Cookbook Name:: gluster
 # Recipe:: default
 #
+# Copyright 2015, Grant Ridder
 # Copyright 2015, Biola University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
