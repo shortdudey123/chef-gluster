@@ -30,8 +30,8 @@ package node['gluster']['server']['package']
 # Make sure the service is started
 service node['gluster']['server']['servicename'] do
   if node['gluster']['server']['enable']
-    actions [:enable, :start]
+    action [:enable, :start]
   else
-    actions [:disable, :stop]
+    action [:disable, :stop]
   end
 end
