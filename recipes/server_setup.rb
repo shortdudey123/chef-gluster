@@ -84,13 +84,12 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
   if volume_values['peers'].first == node['fqdn'] || volume_values['peers'].first == node['hostname']
     # Configure the trusted pool if needed
     volume_values['peers'].each do |peer|
-      unless peer == node['fqdn'] || peer == node['hostname']
-        execute "gluster peer probe #{peer}" do
-          action :run
-          not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
-          retries node['gluster']['server']['peer_retries']
-          retry_delay node['gluster']['server']['peer_retry_delay']
-        end
+      next if peer == node['fqdn'] || peer == node['hostname']
+      execute "gluster peer probe #{peer}" do
+        action :run
+        not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
+        retries node['gluster']['server']['peer_retries']
+        retry_delay node['gluster']['server']['peer_retry_delay']
       end
     end
 
@@ -114,7 +113,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       end
 
       # Create option string
-      options = String.new
+      options = ''
       case volume_values['volume_type']
       when 'replicated'
         # Ensure the trusted pool has the correct number of bricks available
@@ -129,9 +128,9 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         end
       when 'distributed-replicated'
         # Ensure the trusted pool has the correct number of bricks available
-        requiredBricks = (volume_values['replica_count'] * volume_values['peers'].count)
-        if brick_count != requiredBricks
-          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{requiredBricks} required for volume #{volume_name}. Skipping...")
+        required_bricks = (volume_values['replica_count'] * volume_values['peers'].count)
+        if brick_count != required_bricks
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{required_bricks} required for volume #{volume_name}. Skipping...")
           next
         else
           options = "replica #{volume_values['replica_count']}"

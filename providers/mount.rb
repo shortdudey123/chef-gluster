@@ -70,10 +70,10 @@ def mount_options
   options = 'defaults,_netdev'
   unless new_resource.backup_server.nil?
     case
-      when new_resource.backup_server.class == String
-        options += ',backupvolfile-server=' + new_resource.backup_server
-      when new_resource.backup_server.class == Array
-        options += ',backupvolfile-server=' + new_resource.backup_server.join(",backupvolfile-server=")
+    when new_resource.backup_server.class == String
+      options += ',backupvolfile-server=' + new_resource.backup_server
+    when new_resource.backup_server.class == Array
+      options += ',backupvolfile-server=' + new_resource.backup_server.join(',backupvolfile-server=')
     end
   end
   options
