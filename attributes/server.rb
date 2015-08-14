@@ -27,6 +27,9 @@ when 'redhat', 'centos'
   default['gluster']['server']['servicename'] = 'glusterd'
 end
 
+# enable or disable server service
+default['gluster']['server']['enable'] = true
+
 # Package dependencies
 case node['platform']
 when 'ubuntu'
