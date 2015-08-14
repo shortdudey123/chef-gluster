@@ -1,5 +1,8 @@
 gluster Cookbook
 ================
+
+[![Build Status](https://travis-ci.org/shortdudey123/chef-gluster.svg)](https://travis-ci.org/shortdudey123/chef-gluster)
+
 This cookbook is used to install and configure Gluster on both servers and clients. This cookbook makes several assumptions when configuring Gluster servers:
 
 1. If using the cookbook to format disks, each disk will contain a single partition dedicated for Gluster
