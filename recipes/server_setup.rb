@@ -103,7 +103,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       peers.each do |peer|
         if peer == node['hostname'] || node['fqdn']
           chef_node = node
-        else 
+        else
           chef_node = Chef::Node.find_or_create(peer)
         end
         if chef_node['gluster']['server'].attribute?('bricks')
