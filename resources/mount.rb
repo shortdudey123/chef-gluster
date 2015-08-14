@@ -20,7 +20,7 @@
 actions :mount, :umount, :enable, :disable
 default_action :mount
 
-attribute :name, :kind_of => String, :name_attribute => true
-attribute :server, :kind_of => String, :default => nil, :required => true
-attribute :backup_server, :kind_of => [String, Array], :default => nil
-attribute :mount_point, :kind_of => String, :default => nil, :required => true
+attribute :name, kind_of: String, name_attribute: true
+attribute :server, kind_of: String, default: nil, required: true
+attribute :backup_server, kind_of: [String, Array], default: nil
+attribute :mount_point, kind_of: String, default: nil, required: true
