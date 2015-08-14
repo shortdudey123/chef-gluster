@@ -1,0 +1,20 @@
+Metrics/LineLength:
+  Max: 175
+
+Style/SingleSpaceBeforeFirstArg:
+  Exclude:
+    - 'metadata.rb'
+
+Style/RescueModifier:
+  Exclude:
+    - 'recipes/server_setup.rb'
+
+Metrics/AbcSize:
+  Max: 19
+
+Metrics/BlockNesting:
+  Max: 4
+
+Style/Next:
+  Exclude:
+    - 'recipes/server_setup.rb'
