@@ -51,3 +51,7 @@ default['gluster']['server']['bricks'] = []
 # Retry delays for attempting peering
 default['gluster']['server']['peer_retries'] = 0
 default['gluster']['server']['peer_retry_delay'] = 10
+
+# Retry delays for waiting for peer
+default['gluster']['server']['peer_wait_retries'] = 10
+default['gluster']['server']['peer_wait_retry_delay'] = 10
