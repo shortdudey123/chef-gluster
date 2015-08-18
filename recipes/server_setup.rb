@@ -138,9 +138,9 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         end
       end
       unless options.empty?
-        (1..volume_values['replica_count']).each do |i|
-          volume_bricks.each do |peer, vbricks|
-            options << " #{peer}:#{vbricks[i - 1]}"
+        volume_bricks.each do |peer, vbricks|
+          vbricks.each do |brick|
+            options << " #{peer}:#{brick}"
             if vbricks.count > 1
               Chef::Log.warn('We have multiple bricks on the same peer, adding force flag to volume create')
               force = true
