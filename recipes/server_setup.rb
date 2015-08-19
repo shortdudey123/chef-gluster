@@ -128,7 +128,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         # Replicated can be anything from a single node to X nodes. Replica_count should equal number of bricks.
         Chef::Log.warn('You have specified replicated, so the attribute replica_count will be set to be the same number as the bricks you have')
         node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
-        options = "replica #{volume_values['replica_count']}"
+        options = "replica #{brick_count}"
       when 'distributed-replicated'
         # This must be at least replica_count * 2
         required_bricks = (volume_values['replica_count'] * 2)
