@@ -106,9 +106,10 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         else
           chef_node = Chef::Node.find_or_create(peer)
         end
+        chef_fqdn = chef_node['fqdn'] || chef_node['hostname']
         if chef_node['gluster']['server'].attribute?('bricks')
           peer_bricks = chef_node['gluster']['server']['bricks'].select { |brick| brick.include? volume_name }
-          volume_bricks[peer] = peer_bricks
+          volume_bricks[chef_fqdn] = peer_bricks
           brick_count += (peer_bricks.count || 0)
         end rescue NoMethodError
       end
