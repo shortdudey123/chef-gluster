@@ -124,19 +124,33 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       force = false
       options = ''
       case volume_values['volume_type']
+      when 'distributed'
+        Chef::Log.warn('You have specified distributed, serious data loss can occur in this mode as files are spread randomly among the bricks')
+        options = ' '
       when 'replicated'
         # Replicated can be anything from a single node to X nodes. Replica_count should equal number of bricks.
         Chef::Log.warn('You have specified replicated, so the attribute replica_count will be set to be the same number as the bricks you have')
         node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
         options = "replica #{brick_count}"
       when 'distributed-replicated'
-        # This must be at least replica_count * 2
-        required_bricks = (volume_values['replica_count'] * 2)
-        if brick_count < required_bricks
-          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, at least #{required_bricks} are required for volume #{volume_name}. Skipping...")
+        # brick count has to be a multiple of replica count
+        if brick_count % volume_values['replica_count'] != 0
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} needs to be a multiple of #{volume_values['replica_count']}. Skipping...")
           next
         else
           options = "replica #{volume_values['replica_count']}"
+        end
+      when 'striped'
+        # This is similar to a replicated volume, stripe count is the same as the number of bricks
+        Chef::Log.warn('You have specified striped, so the attribute replica_count will be set to be the same number as the bricks you have')
+        node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
+        options = "stripe #{brick_count}"
+      when 'distributed-striped'
+        if brick_count % volume_values['replica_count'] != 0
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, at least #{required_bricks} are required for volume #{volume_name}. Skipping...")
+          next
+        else
+          options = "stripe #{volume_values['replica_count']}"
         end
       end
       unless options.empty?
