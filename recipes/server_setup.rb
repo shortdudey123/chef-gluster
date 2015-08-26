@@ -111,7 +111,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         if peer == node['hostname'] || node['fqdn']
           chef_node = node
         else
-          chef_node = Chef::Node.find_or_create(peer)
+          chef_node = Chef::Node.load(peer)
         end
         if chef_node['gluster']['server'].attribute?('bricks')
           peer_bricks = chef_node['gluster']['server']['bricks'].select { |brick| brick.include? volume_name }
