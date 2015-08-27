@@ -8,25 +8,18 @@ provisioner:
 platforms:
   - name: ubuntu-14.04
     driver:
-      type_of_controller: SATA
-      vagrantfile_erb: test/integration/Vagrantfile.erb
   - name: ubuntu-12.04
     driver:
-      controller: IDE
-      vagrantfile_erb: test/integration/Vagrantfile.erb
   - name: centos-6.5
     driver:
-      controller: IDE
-      vagrantfile_erb: test/integration/Vagrantfile.erb
   - name: centos-7.1
     driver:
-      type_of_ controller: SATA
-      vagrantfile_erb: test/integration/Vagrantfile.erb
 
 suites:
   - name: replicated1
     driver:
       ipaddress: 192.168.10.10
+      vagrantfile_erb: test/integration/Vagrantfile.erb
       vm_hostname: gluster1
       additional_disk: 
         size: 10
@@ -50,6 +43,7 @@ suites:
   - name: replicated2
     driver:
       ipaddress: 192.168.10.20
+      vagrantfile_erb: test/integration/Vagrantfile.erb
       vm_hostname: gluster2
       additional_disk: 
         size: 10
