@@ -55,3 +55,6 @@ default['gluster']['server']['peer_retry_delay'] = 10
 # Retry delays for waiting for peer
 default['gluster']['server']['peer_wait_retries'] = 10
 default['gluster']['server']['peer_wait_retry_delay'] = 10
+
+# For extend recipe
+default['gluster']['server']['bricks_waiting_to_join'] = ''

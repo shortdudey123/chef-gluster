@@ -128,7 +128,11 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         Chef::Log.warn('You have specified distributed, serious data loss can occur in this mode as files are spread randomly among the bricks')
         options = ' '
       when 'replicated'
-        # Replicated can be anything from a single node to X nodes. Replica_count should equal number of bricks.
+        # Replicated can be anything from single node to X nodes. Replica_count should equal number of bricks.
+        if brick_count < 1
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} needs to be at least 1. Skipping...")
+          next
+        end
         Chef::Log.warn('You have specified replicated, so the attribute replica_count will be set to be the same number as the bricks you have')
         node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
         options = "replica #{brick_count}"
