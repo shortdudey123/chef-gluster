@@ -119,11 +119,14 @@ There is a kitchen file provided to allow testing of the various versions. Examp
 
 To test a replicated volume on Ubuntu 12.04:
 kitchen converge replicated\[12]-ubuntu-1204
+kitchen verify replicated2-ubuntu-1204
 
 To test a distributed-replicated volume on CentOS 7.1:
 kitchen converge distributed-repl\[1234]-centos-71
+kitchen verify distributed-repl4-centos-71
 
 To test a striped volume on CentOS 6.5:
 kitchen converge striped\[12]-centos-65
+kitchen verify striped2-centos-65
 
 Please note that at present the kitchen setup only supports Virtualbox
