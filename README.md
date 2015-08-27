@@ -109,3 +109,21 @@ default['gluster']['server']['volumes'] = {
 ```
 
 For clients, add the gluster::default or gluster::client recipe to the node's run list, and mount volumes using the `gluster_mount` LWRP. The Gluster volume will be mounted on the next chef-client run (provided the volume exists and is available) and added to /etc/fstab.
+
+Testing
+-------
+
+There is a kitchen file provided to allow testing of the various versions. Examples of tests are:
+
+(Depending on your shell, you may or may not need the \ in the RegEx)
+
+To test a replicated volume on Ubuntu 12.04:
+kitchen converge replicated\[12]-ubuntu-1204
+
+To test a distributed-replicated volume on CentOS 7.1:
+kitchen converge distributed-repl\[1234]-centos-71
+
+To test a striped volume on CentOS 6.5:
+kitchen converge striped\[12]-centos-65
+
+Please note that at present the kitchen setup only supports Virtualbox

@@ -7,15 +7,26 @@ provisioner:
 
 platforms:
   - name: ubuntu-14.04
+    driver:
+      type_of_controller: SATA
+      vagrantfile_erb: test/integration/Vagrantfile.erb
   - name: ubuntu-12.04
+    driver:
+      controller: IDE
+      vagrantfile_erb: test/integration/Vagrantfile.erb
   - name: centos-6.5
+    driver:
+      controller: IDE
+      vagrantfile_erb: test/integration/Vagrantfile.erb
   - name: centos-7.1
+    driver:
+      type_of_ controller: SATA
+      vagrantfile_erb: test/integration/Vagrantfile.erb
 
 suites:
   - name: replicated1
     driver:
       ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
       vm_hostname: gluster1
       additional_disk: 
         size: 10
@@ -39,7 +50,6 @@ suites:
   - name: replicated2
     driver:
       ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
       vm_hostname: gluster2
       additional_disk: 
         size: 10
@@ -108,7 +118,7 @@ suites:
               replica_count: 2
               volume_type: "distributed"
 
-  - name: distributed-replicated1
+  - name: distributed-repl1
     driver:
       ipaddress: 192.168.10.10
       vagrantfile_erb: test/integration/Vagrantfile.erb
@@ -134,7 +144,7 @@ suites:
               replica_count: 2
               volume_type: "distributed-replicated"
 
-  - name: distributed-replicated2
+  - name: distributed-repl2
     driver:
       ipaddress: 192.168.10.20
       vagrantfile_erb: test/integration/Vagrantfile.erb
@@ -160,7 +170,7 @@ suites:
               replica_count: 2
               volume_type: "distributed-replicated"
 
-  - name: distributed-replicated3
+  - name: distributed-repl3
     driver:
       ipaddress: 192.168.10.30
       vagrantfile_erb: test/integration/Vagrantfile.erb
@@ -186,7 +196,7 @@ suites:
               replica_count: 2
               volume_type: "distributed-replicated"
 
-  - name: distributed-replicated4
+  - name: distributed-repl4
     driver:
       ipaddress: 192.168.10.40
       vagrantfile_erb: test/integration/Vagrantfile.erb
