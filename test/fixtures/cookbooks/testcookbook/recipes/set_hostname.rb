@@ -14,5 +14,5 @@
 end
 
 execute 'fix_network' do
-  command "service NetworkManager stop && service network restart"
+  command 'service NetworkManager stop && service network restart'
 end
