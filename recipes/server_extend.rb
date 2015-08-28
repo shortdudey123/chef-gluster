@@ -13,7 +13,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     peer_bricks = chef_node['gluster']['server']['bricks'].select { |brick| brick.include? volume_name }
     brick_count += (peer_bricks.count || 0)
     peer_bricks.each do |brick|
-      Chef::Log.warn("Checking #{peer}:#{brick}")
+      Chef::Log.info("Checking #{peer}:#{brick}")
       unless brick_in_volume?(peer, brick, volume_name)
         node.default['gluster']['server']['bricks_waiting_to_join'] << " #{peer}:#{brick}"
       end
@@ -24,7 +24,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
   next if node['gluster']['server']['bricks_waiting_to_join'].empty?
   # The number of bricks in bricks_waiting_to_join has to be a modulus of the replica_count we are using for our gluster volume
   if (brick_count % replica_count) == 0
-    Chef::Log.warn("Attempting to add new bricks into volume #{volume_name}")
+    Chef::Log.info("Attempting to add new bricks into volume #{volume_name}")
     execute "gluster volume add-brick #{volume_name} #{node['gluster']['server']['bricks_waiting_to_join']}" do
       action :run
     end
