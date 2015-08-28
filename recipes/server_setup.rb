@@ -92,6 +92,13 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         retries node['gluster']['server']['peer_retries']
         retry_delay node['gluster']['server']['peer_retry_delay']
       end
+      # Wait here until the peer reaches connected status (needed for volume create later)
+      execute "gluster peer status | grep -A 2 #{peer} | tail -1 | grep 'Peer in Cluster (Connected)'" do
+        action :run
+        not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
+        retries node['gluster']['server']['peer_wait_retries']
+        retry_delay node['gluster']['server']['peer_wait_retry_delay']
+      end
     end
 
     # Create the volume if it doesn't exist
@@ -104,7 +111,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         if peer == node['hostname'] || peer == node['fqdn']
           chef_node = node
         else
-          chef_node = Chef::Node.find_or_create(peer)
+          chef_node = Chef::Node.load(peer)
         end
         chef_fqdn = chef_node['fqdn'] || chef_node['hostname']
         if chef_node['gluster']['server'].attribute?('bricks')
@@ -115,37 +122,65 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       end
 
       # Create option string
+      force = false
       options = ''
       case volume_values['volume_type']
+      when 'distributed'
+        Chef::Log.warn('You have specified distributed, serious data loss can occur in this mode as files are spread randomly among the bricks')
+        options = ' '
       when 'replicated'
-        # Ensure the trusted pool has the correct number of bricks available
-        if brick_count < volume_values['replica_count']
-          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{volume_values['replica_count']} required for volume #{volume_name}. Skipping...")
+        # Replicated can be anything from two nodes to X nodes. Replica_count should equal number of bricks.
+        if brick_count < 2
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} needs to be at least 1. Skipping...")
           next
-        else
-          options = "replica #{volume_values['replica_count']}"
-          volume_bricks.each do |peer, vbricks|
-            options << " #{peer}:#{vbricks.first}"
-          end
         end
+        Chef::Log.warn('You have specified replicated, so the attribute replica_count will be set to be the same number as the bricks you have')
+        node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
+        options = "replica #{brick_count}"
       when 'distributed-replicated'
-        # Ensure the trusted pool has the correct number of bricks available
-        required_bricks = (volume_values['replica_count'] * volume_values['peers'].count)
-        if brick_count != required_bricks
-          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, #{required_bricks} required for volume #{volume_name}. Skipping...")
+        # brick count has to be a multiple of replica count
+        if brick_count % volume_values['replica_count'] != 0
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} needs to be a multiple of #{volume_values['replica_count']}. Skipping...")
           next
         else
           options = "replica #{volume_values['replica_count']}"
-          (1..volume_values['replica_count']).each do |i|
-            volume_bricks.each do |peer, vbricks|
-              options << " #{peer}:#{vbricks[i - 1]}"
+        end
+      when 'striped'
+        # This is similar to a replicated volume, stripe count is the same as the number of bricks
+        Chef::Log.warn('You have specified striped, so the attribute replica_count will be set to be the same number as the bricks you have')
+        node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
+        options = "stripe #{brick_count}"
+      when 'distributed-striped'
+        if brick_count % volume_values['replica_count'] != 0
+          Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, at least #{required_bricks} are required for volume #{volume_name}. Skipping...")
+          next
+        else
+          options = "stripe #{volume_values['replica_count']}"
+        end
+      end
+      unless options.empty?
+        volume_bricks.each do |peer, vbricks|
+          vbricks.each do |brick|
+            options << " #{peer}:#{brick}"
+            if vbricks.count > 1
+              Chef::Log.warn('We have multiple bricks on the same peer, adding force flag to volume create')
+              force = true
             end
           end
         end
       end
-
-      execute "gluster volume create #{volume_name} #{options}" do
-        action :run
+      if force == true
+        options << ' force'
+        # Gluster still requires cli confirmation even if you use force for some odd reason.
+        execute "echo y | gluster volume create #{volume_name} #{options}" do
+          action :run
+          not_if options.empty?
+        end
+      else
+        execute "gluster volume create #{volume_name} #{options}" do
+          action :run
+          not_if options.empty?
+        end
       end
     end
 
