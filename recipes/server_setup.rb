@@ -111,7 +111,12 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         if peer == node['hostname'] || peer == node['fqdn']
           chef_node = node
         else
-          chef_node = Chef::Node.load(peer)
+          begin
+            chef_node = Chef::Node.load(peer)
+          rescue Net::HTTPServerException
+            Chef::Log.warn("Unable to find a chef node for #{peer}")
+            next
+          end
         end
         chef_fqdn = chef_node['fqdn'] || chef_node['hostname']
         if chef_node['gluster']['server'].attribute?('bricks')
