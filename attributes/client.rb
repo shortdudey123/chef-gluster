@@ -23,8 +23,8 @@ case node['platform']
 when 'ubuntu'
   default['gluster']['client']['package'] = 'glusterfs-client'
 when 'redhat', 'centos'
-  default['gluster']['client']['package'] = 'glusterfs'
+  default['gluster']['client']['package'] = ['fuse', 'fuse-libs', 'glusterfs', 'glusterfs-fuse']
 end
 
 # Gluster volumes to mount
-default['gluster']['client']['volumes'] = []
+default['gluster']['client']['volumes'] = {}
