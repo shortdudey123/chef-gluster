@@ -18,7 +18,9 @@
 # limitations under the License.
 #
 
-include_recipe 'gluster::repository'
+if node['gluster']['repo'] == 'public'
+    include_recipe 'gluster::repository'
+end
 
 # Install the client package
 package node['gluster']['client']['package']
