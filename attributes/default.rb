@@ -19,3 +19,7 @@
 #
 
 default['gluster']['version'] = '3.4'
+
+# Switch to use public or private repo, if you use private repo,
+# please use apt-get/yum cookbook to manage your repo with a wrapper cookbook
+default['gluster']['repo'] = 'public'
