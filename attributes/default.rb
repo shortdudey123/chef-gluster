@@ -19,7 +19,4 @@
 #
 
 default['gluster']['version'] = '3.4'
-
-# Switch to use public or private repo, if you use private repo, 
-#  please configure your wrapper cookbook to take care of this
 default['gluster']['repo'] = 'public'
