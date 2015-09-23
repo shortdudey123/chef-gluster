@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-[node['gluster']['repo'] == 'public'] && include_recipe 'gluster::repository'
+include_recipe 'gluster::repository'
 
 # Install dependencies
 node['gluster']['server']['dependencies'].each do |d|
