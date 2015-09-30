@@ -18,6 +18,7 @@ Attributes
 
 ### gluster::default
 - `node['gluster']['version']` - version to install, defaults to 3.4
+- `node['gluster']['repo']` - repo to install from: can be public or private, defaults to public, private requires a so-called "private" repo to be configured in a wrapper cookbook for example
 
 ### gluster::client
 Node attributes to specify volumes to mount. This has been deprecated in favor of using the 'gluster_mount' LWRP.
