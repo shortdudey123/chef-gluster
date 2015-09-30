@@ -19,3 +19,4 @@
 #
 
 include_recipe 'gluster::client_install'
+include_recipe 'gluster::client_mount'

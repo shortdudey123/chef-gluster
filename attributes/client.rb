@@ -27,4 +27,4 @@ when 'redhat', 'centos'
 end
 
 # Gluster volumes to mount
-default['gluster']['client']['volumes'] = []
+default['gluster']['client']['volumes'] = {}
