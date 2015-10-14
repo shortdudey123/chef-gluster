@@ -155,8 +155,7 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-replicated"
-              size: "5G"
-              filesystem: "xfs"
+              size: "5 G"
 
   - name: distributed-repl2
     driver:
@@ -184,7 +183,6 @@ suites:
               replica_count: 2
               volume_type: "distributed-replicated"
               size: "5G"
-              filesystem: "xfs"
 
   - name: distributed-repl3
     driver:
@@ -212,7 +210,6 @@ suites:
               replica_count: 2
               volume_type: "distributed-replicated"
               size: "5G"
-              filesystem: "xfs"
 
   - name: distributed-repl4
     driver:
@@ -240,7 +237,6 @@ suites:
               replica_count: 2
               volume_type: "distributed-replicated"
               size: "5G"
-              filesystem: "xfs"
 
   - name: striped1
     driver:

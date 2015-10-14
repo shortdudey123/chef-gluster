@@ -1,23 +1,23 @@
 gluster Cookbook
 ================
 
-[![Build Status](https://travis-ci.org/shortdudey123/chef-gluster.svg)](https://travis-ci.org/shortdudey123/chef-gluster)
+Please note that this cookbook has forked from https://github.com/shortdudey123/chef-gluster and is not backwards compatible.
 
 This cookbook is used to install and configure Gluster on both servers and clients. This cookbook makes several assumptions when configuring Gluster servers:
 
-1. If using the cookbook to format disks, each disk will contain a single partition dedicated for Gluster
-2. Non-replicated volume types are not supported
+1. This cookbook is being run on at least two nodes, the exact number depends on the Gluster Volume type
+2. A second physical disk has been added, unformatted, to the server. This cookbook will install lvm and configure the disks automatically.
 3. All peers for a volume will be configured with the same number of bricks
 
 Platforms
 ---------
-This cookbook has been tested on Ubuntu 12.04/14.04, CentOS 6.5 and CentOS 7.1
+This cookbook has been tested on Ubuntu 12.04/14.04, CentOS 6.7 and CentOS 7.1
 
 Attributes
 ----------
 
 ### gluster::default
-- `node['gluster']['version']` - version to install, defaults to 3.4
+- `node['gluster']['version']` - version to install, defaults to 3.6
 
 ### gluster::client
 Node attributes to specify volumes to mount. This has been deprecated in favor of using the 'gluster_mount' LWRP.
@@ -29,18 +29,25 @@ Node attributes to specify volumes to mount. This has been deprecated in favor o
 ### gluster::server
 Node attributes to specify server volumes to create
 
+The absolute minimum configuration is:
+- `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['sdb', 'sdc'])
+- `node['gluster']['server']['volumes'][VOLUME_NAME]['peers']` - an array of FQDNs for peers used in the volume
+- `node['gluster']['server']['volumes'][VOLUME_NAME]['volume_type']` - the volume type to use; this value can be 'replicated', 'distributed-replicated', 'distributed', 'striped' or 'distributed-striped'
+- `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook and uses the syntax defined here: https://github.com/chef-cookbooks/lvm .
+
+Other attributes include:
 - `node['gluster']['server']['brick_mount_path']` - default path to use for mounting bricks
 - `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['sdb', 'sdc'])
 - `node['gluster']['server']['peer_retries']` - attempt to connect to peers up to N times
 - `node['gluster']['server']['peer_retry_delays']` - number of seconds to wait between attempts to initially attempt to connect to peers
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['allowed_hosts']` - an optional array of IP addresses to allow access to the volume
-- `node['gluster']['server']['volumes'][VOLUME_NAME]['disks']` - an optional array of disks to put bricks on (for example, ['sdb', 'sdc']); by default the cookbook will use the first x number of disks, equal to the replica count
-- `node['gluster']['server']['volumes'][VOLUME_NAME]['lvm_volumes']` - an optional array of logical volumes to put bricks on (for example, ['LogVolGlusterBrick1', 'LogVolGlusterBrick2']); by default the cookbook will use the first x number of volumes, equal to the replica count
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['peer_names']` - an optional array of Chef node names for peers used in the volume
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['peers']` - an array of FQDNs for peers used in the volume
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['quota']` - an optional disk quota to set for the volume, such as '10GB'
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['replica_count']` - the number of replicas to create
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['volume_type']` - the volume type to use; this value can be 'replicated', 'distributed-replicated', 'distributed', 'striped' or 'distributed-striped'
+- `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook.
+- `node['gluster']['server']['volumes'][VOLUME_NAME]['filesystem']` - The filesystem to use. This defaults to xfs.
 
 LWRPs
 -----

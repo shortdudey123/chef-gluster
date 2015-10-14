@@ -2,6 +2,7 @@
 # Cookbook Name:: gluster
 # Recipe:: server_setup
 #
+# Copyright 2015, Andrew Repton
 # Copyright 2015, Grant Ridder
 # Copyright 2015, Biola University
 #
@@ -34,10 +35,17 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     lvm_volume_group "#{volume_name}-VG" do
       physical_volumes node['gluster']['server']['disks']
       
+      if volume_values.attribute?('filesystem')
+        filesystem = volume_values['filesystem']
+      else
+        Chef::Log.warn('No filesystem specified, defaulting to xfs')
+        filesystem = 'xfs'
+      end
+      
       # Even though this says volume_name, it's actually Brick Name. At the moment this method only supports one brick per volume per server
       logical_volume volume_name do
         size        volume_values['size']
-        filesystem  volume_values['filesystem']
+        filesystem  filesystem
         mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}"
       end
     end
