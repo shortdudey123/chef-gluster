@@ -45,6 +45,9 @@ def create_mount_point
   # Ensure the mount point exists
   directory new_resource.mount_point do
     recursive true
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
     action :create
   end
 end
