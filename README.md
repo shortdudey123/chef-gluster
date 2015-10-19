@@ -65,6 +65,20 @@ gluster_mount 'volume_name' do
 end
 ```
 
+#### Parameters
+
+- `server` - The primary server to fetch the volfile from. Required.
+
+- `backup_server` - Backup servers to obtain the volfile from. Required.
+
+- `mount_point` - The mount point on the local server to mount the glusterfs volume on. Created if non-existing. Required.
+
+- `owner` - Owner of the underlying mount point directory. Defaults to `nil`. Optional.
+
+- `group` - Group of the underlying mount point directory. Defaults to `nil`. Optional.
+
+- `mode` - File mode of the underlying mount point directory. Defaults to `nil`. Optional.
+
 Usage
 -----
 
