@@ -73,6 +73,8 @@ end
 
 - `mount_point` - The mount point on the local server to mount the glusterfs volume on. Created if non-existing. Required.
 
+- `mount_options` - Additional mount options added to the default options set `defaults,_netdev`. Optional.
+
 - `owner` - Owner of the underlying mount point directory. Defaults to `nil`. Optional.
 
 - `group` - Group of the underlying mount point directory. Defaults to `nil`. Optional.
