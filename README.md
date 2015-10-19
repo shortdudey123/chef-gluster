@@ -65,11 +65,11 @@ gluster_mount 'volume_name' do
 end
 ```
 
-#### Parameters
+### Parameters
 
 - `server` - The primary server to fetch the volfile from. Required.
 
-- `backup_server` - Backup servers to obtain the volfile from. Required.
+- `backup_server` - Backup servers to obtain the volfile from. Optional.
 
 - `mount_point` - The mount point on the local server to mount the glusterfs volume on. Created if non-existing. Required.
 
