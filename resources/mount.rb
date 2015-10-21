@@ -28,3 +28,4 @@ attribute :group, kind_of: String, default: nil
 attribute :mode, kind_of: String, default: nil
 attribute :backup_server, kind_of: [String, Array], default: nil
 attribute :mount_point, kind_of: String, default: nil, required: true
+attribute :mount_options, kind_of: [String, Array], default: nil
