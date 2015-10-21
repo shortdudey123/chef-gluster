@@ -1,5 +1,10 @@
 # gluster cookbook CHANGELOG
 
+## v4.0.2 (2015-10-21)
+- **[PR #39](https://github.com/shortdudey123/chef-gluster/pull/39)** - Fix the client package name for rhel
+- **[PR #42](https://github.com/shortdudey123/chef-gluster/pull/42)** - Add owner/group/mode settings to gluster_mount LWRP
+- **[PR #41](https://github.com/shortdudey123/chef-gluster/pull/41)** - Allow mount options to be set on gluster mount
+
 ## v4.0.1 (2015-09-30)
 - **[PR #28](https://github.com/shortdudey123/chef-gluster/pull/28)** - Add exception handling for peers not being nodes on chef server
 - **[PR #36](https://github.com/shortdudey123/chef-gluster/pull/36)** - Allow disabling of public Gluster repo
