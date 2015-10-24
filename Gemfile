@@ -5,3 +5,9 @@ group :testing do
   gem 'rake'
   gem 'rubocop'
 end
+
+group :integration do
+  gem 'berkshelf'
+  gem 'kitchen-vagrant'
+  gem 'test-kitchen'
+end

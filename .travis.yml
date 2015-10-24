@@ -6,3 +6,4 @@ sudo: false
 branches:
   only:
     - master
+bundler_args: --without=integration
