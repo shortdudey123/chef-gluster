@@ -18,10 +18,11 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     end
     peer_bricks = chef_node['gluster']['server']['bricks'].select { |brick| brick.include? volume_name }
     brick_count += (peer_bricks.count || 0)
+    chef_fqdn = chef_node['fqdn'] || chef_node['hostname']
     peer_bricks.each do |brick|
-      Chef::Log.info("Checking #{peer}:#{brick}")
-      unless brick_in_volume?(peer, brick, volume_name)
-        node.default['gluster']['server']['bricks_waiting_to_join'] << " #{peer}:#{brick}"
+      Chef::Log.info("Checking #{chef_fqdn}:#{brick}")
+      unless brick_in_volume?(chef_fqdn, brick, volume_name)
+        node.default['gluster']['server']['bricks_waiting_to_join'] << " #{chef_fqdn}:#{brick}"
       end
     end
   end
