@@ -32,20 +32,18 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     # Use either configured LVM volumes or default LVM volumes
     # Configure the LV's per gluster volume
     # Each LV is one brick
-    lvm_volume_group "gluster" do
+    lvm_volume_group 'gluster' do
       physical_volumes node['gluster']['server']['disks']
-      
       if volume_values.attribute?('filesystem')
         filesystem = volume_values['filesystem']
       else
         Chef::Log.warn('No filesystem specified, defaulting to xfs')
         filesystem = 'xfs'
       end
-      
       # Even though this says volume_name, it's actually Brick Name. At the moment this method only supports one brick per volume per server
       logical_volume volume_name do
-        size        volume_values['size']
-        filesystem  filesystem
+        size volume_values['size']
+        filesystem filesystem
         mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}"
       end
     end

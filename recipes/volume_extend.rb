@@ -1,13 +1,14 @@
 node['gluster']['server']['volumes'].each do |volume_name, volume_values|
-
   # 1. Get the current size of the logical volume
-  # 2. Compare to the size set for the gluster volume 
+  # 2. Compare to the size set for the gluster volume
   # 3. If different, run a resize action against that volume
   # ToDO: change hardcoded VG name gluster into an attribute
   require 'lvm'
-  
+
   LVM::LVM.new do |lvm|
     lvm.logical_volumes.each do |lv|
+      # I'm ignoring these as I think this layout helps readability
+      # rubocop:disable Style/Next, Style/CaseIndentation, Lint/EndAlignment
       if lv.full_name.to_s == "gluster/#{volume_name}"
         lv_size_cur = lv.size.to_i
         # Borrowed from the lvm cookbook
@@ -35,10 +36,9 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         elsif volume_lv_size_req < lv_size_cur
           Chef::Log.fatal("Requested size #{volume_lv_size_req} is smaller than current size #{lv_size_cur}, I am not resizing")
         else
-          Chef::Log.info("Size is the same, doing nothing")
+          Chef::Log.info('Size is the same, doing nothing')
         end
       end
     end
   end
-
 end
