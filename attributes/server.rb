@@ -41,8 +41,6 @@ end
 
 # Default path to use for mounting bricks
 default['gluster']['server']['brick_mount_path'] = '/gluster'
-# Partitions to create and format
-default['gluster']['server']['partitions'] = []
 # Gluster volumes to create
 default['gluster']['server']['volumes'] = {}
 # Set by the cookbook once bricks are configured and ready to use
@@ -58,3 +56,46 @@ default['gluster']['server']['peer_wait_retry_delay'] = 10
 
 # For extend recipe
 default['gluster']['server']['bricks_waiting_to_join'] = ''
+
+# In your role cookbook or similar, copy one of the following examples to create your cluster
+# This example will create three gluster volumes over two nodes, with different volume types
+# And with different sizes
+
+# default['gluster']['server']['volumes'] = {
+#  'gv0' => {
+#    'peers' => ["gluster1","gluster2"],
+#    'replica_count' => 2,
+#    'volume_type' => 'replicated'
+#    'size' => '10G'
+#  },
+#  'gv1' => {
+#    'peers' => ["gluster1","gluster2"],
+#    'replica_count' => 1,
+#    'volume_type' => 'distributed',
+#    'size' => '5G'
+#  },
+#  'gv2' => {
+#    'peers' => ["gluster1","gluster2"],
+#    'replica_count' => 2,
+#    'volume_type' => 'striped',
+#    'size' => '10G'
+#  }
+# }
+
+# This example will create two gluster volumes over 4 nodes
+# with different sizes
+
+# default['gluster']['server']['volumes'] = {
+#  'gv0' => {
+#    'peers' => ["gluster1","gluster2", "gluster3", "gluster4"],
+#    'replica_count' => 2,
+#    'volume_type' => 'distributed-replicated'
+#    'size' => '10G'
+#  },
+#  'gv1' => {
+#    'peers' => ["gluster1","gluster2", "gluster3", "gluster4"],
+#    'replica_count' => 2,
+#    'volume_type' => 'distributed-replicated',
+#    'size' => '20G'
+#  }
+# }

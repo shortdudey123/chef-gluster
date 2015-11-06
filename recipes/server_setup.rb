@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: gluster
+# Cookbook Name:: sbp_gluster
 # Recipe:: server_setup
 #
 # Copyright 2015, Andrew Repton
@@ -25,14 +25,14 @@ node['gluster']['server']['disks'].each do |physical_device|
 end
 
 # Create and start volumes
-bricks = []
 node['gluster']['server']['volumes'].each do |volume_name, volume_values|
+  bricks = []
   # If the node is configured as a peer for the volume, create directories to use as bricks
   if volume_values['peers'].include?(node['fqdn']) || volume_values['peers'].include?(node['hostname'])
     # Use either configured LVM volumes or default LVM volumes
     # Configure the LV's per gluster volume
     # Each LV is one brick
-    lvm_volume_group "#{volume_name}-VG" do
+    lvm_volume_group "gluster" do
       physical_volumes node['gluster']['server']['disks']
       
       if volume_values.attribute?('filesystem')
@@ -70,7 +70,6 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       # Wait here until the peer reaches connected status (needed for volume create later)
       execute "gluster peer status | grep -A 2 #{peer} | tail -1 | grep 'Peer in Cluster (Connected)'" do
         action :run
-        not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
         retries node['gluster']['server']['peer_wait_retries']
         retry_delay node['gluster']['server']['peer_wait_retry_delay']
       end
