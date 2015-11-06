@@ -1,7 +1,7 @@
 gluster Cookbook
 ================
 
-Please note that this cookbook has forked from https://github.com/shortdudey123/chef-gluster and is not backwards compatible.
+[![Build Status](https://travis-ci.org/shortdudey123/chef-gluster.svg)](https://travis-ci.org/shortdudey123/chef-gluster)
 
 This cookbook is used to install and configure Gluster on both servers and clients. This cookbook makes several assumptions when configuring Gluster servers:
 

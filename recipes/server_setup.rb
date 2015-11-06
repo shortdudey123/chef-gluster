@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: sbp_gluster
+# Cookbook Name:: gluster
 # Recipe:: server_setup
 #
 # Copyright 2015, Andrew Repton
