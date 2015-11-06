@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-include_recipe 'gluster::repository'
+include_recipe 'gluster::repository' unless node['gluster']['repo'] == 'private'
 
 # Install dependencies
 node['gluster']['server']['dependencies'].each do |d|
@@ -35,4 +35,14 @@ service node['gluster']['server']['servicename'] do
   else
     action [:disable, :stop]
   end
+end
+
+# Make sure the brick service is started
+service 'glusterfsd' do
+  if node['gluster']['server']['enable']
+    action [:enable, :start]
+  else
+    action [:disable, :stop]
+  end
+  only_if { node['platform_family'] == 'rhel' && node['platform_version'].to_f >= 7.0 }
 end

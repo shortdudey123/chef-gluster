@@ -17,7 +17,8 @@ Attributes
 ----------
 
 ### gluster::default
-- `node['gluster']['version']` - version to install, defaults to 3.6
+- `node['gluster']['version']` - version to install, defaults to 3.4
+- `node['gluster']['repo']` - repo to install from: can be public or private, defaults to public, private requires a so-called "private" repo to be configured in a wrapper cookbook for example
 
 ### gluster::client
 Node attributes to specify volumes to mount. This has been deprecated in favor of using the 'gluster_mount' LWRP.
@@ -70,6 +71,22 @@ gluster_mount 'volume_name' do
   action [:mount, :enable]
 end
 ```
+
+### Parameters
+
+- `server` - The primary server to fetch the volfile from. Required.
+
+- `backup_server` - Backup servers to obtain the volfile from. Optional.
+
+- `mount_point` - The mount point on the local server to mount the glusterfs volume on. Created if non-existing. Required.
+
+- `mount_options` - Additional mount options added to the default options set `defaults,_netdev`. Optional.
+
+- `owner` - Owner of the underlying mount point directory. Defaults to `nil`. Optional.
+
+- `group` - Group of the underlying mount point directory. Defaults to `nil`. Optional.
+
+- `mode` - File mode of the underlying mount point directory. Defaults to `nil`. Optional.
 
 Usage
 -----

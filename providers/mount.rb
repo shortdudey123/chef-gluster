@@ -45,6 +45,9 @@ def create_mount_point
   # Ensure the mount point exists
   directory new_resource.mount_point do
     recursive true
+    owner new_resource.owner
+    group new_resource.group
+    mode new_resource.mode
     action :create
   end
 end
@@ -67,17 +70,23 @@ def enable_volume
 end
 
 def mount_options
-  # Define a backup server for this volume, if available
-  options = 'defaults,_netdev'
-  unless new_resource.backup_server.nil?
-    case
-    when new_resource.backup_server.class == String
-      options += ',backupvolfile-server=' + new_resource.backup_server
-    when new_resource.backup_server.class == Array
-      options += ',backupvolfile-server=' + new_resource.backup_server.join(',backupvolfile-server=')
-    end
+  "#{basic_mount_options}#{mount_options_for_backup_server}"
+end
+
+def basic_mount_options
+  [
+    'defaults,_netdev',
+    new_resource.mount_options || []
+  ].flatten(1).join(',')
+end
+
+def mount_options_for_backup_server
+  case
+  when new_resource.backup_server.class == String
+    ',backupvolfile-server=' + new_resource.backup_server
+  when new_resource.backup_server.class == Array
+    ',backupvolfile-server=' + new_resource.backup_server.join(',backupvolfile-server=')
   end
-  options
 end
 
 def mount_volume

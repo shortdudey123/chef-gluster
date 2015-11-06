@@ -4,7 +4,7 @@ maintainer_email 'arepton@schubergphilis.com'
 license          'Apache 2.0'
 description      'Installs and configures Gluster servers and clients'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '5.0.0'
+version          '4.0.2'
 depends          'apt', '>= 2.0'
 depends          'yum', '>= 3.0'
 depends          'lvm'
