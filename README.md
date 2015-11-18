@@ -13,6 +13,8 @@ Platforms
 ---------
 This cookbook has been tested on Ubuntu 12.04/14.04, CentOS 6.7 and CentOS 7.1
 
+As this cookbook uses Semantic Versioning, major version number bumps are not backwards compatible. Especially the change from v4 to v5 will require a rebuild of the gluster nodes.
+
 Attributes
 ----------
 
