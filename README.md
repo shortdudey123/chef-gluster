@@ -12,6 +12,7 @@ This cookbook is used to install and configure Gluster on both servers and clien
 Platforms
 ---------
 This cookbook has been tested on Ubuntu 12.04/14.04, CentOS 6.5 and CentOS 7.1
+Also on debian wheezy, but it should work on any above as well.
 
 Attributes
 ----------
