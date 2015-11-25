@@ -20,7 +20,7 @@
 
 # Client package
 case node['platform']
-when 'ubuntu'
+when 'ubuntu', 'debian'
   default['gluster']['client']['package'] = 'glusterfs-client'
 when 'redhat', 'centos'
   default['gluster']['client']['package'] = 'glusterfs-fuse'
