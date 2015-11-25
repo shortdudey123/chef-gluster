@@ -16,7 +16,12 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       Chef::Log.warn("Unable to find a chef node for #{peer}")
       next
     end
-    peer_bricks = chef_node['gluster']['server'][volume_name]['bricks'].select { |brick| brick.include? volume_name }
+
+    unless node.default['gluster']['server']['volumes'][volume_name].attribute?('bricks_waiting_to_join')
+      node.default['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
+    end
+
+    peer_bricks = chef_node['gluster']['server']['volumes'][volume_name]['bricks'].select { |brick| brick.include? volume_name }
     brick_count += (peer_bricks.count || 0)
     peer_bricks.each do |brick|
       Chef::Log.info("Checking #{peer}:#{brick}")
