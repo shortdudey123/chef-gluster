@@ -40,10 +40,17 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       action :run
     end
     node.set['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
-  elsif volume_values['volume_type'] == 'replicated' || volume_values['volume_type'] == 'striped'
-    Chef::Log.warn("#{volume_name} is a replicated or striped volume, adjusting replica count to match new number of bricks")
+  elsif volume_values['volume_type'] == 'striped'
+    Chef::Log.warn("#{volume_name} is a striped volume, adjusting replica count to match new number of bricks")
     node.set['gluster']['server']['volumes'][volume_name][replica_count] = brick_count
-    execute "gluster volume add-brick replica #{volume_name} #{brick_count} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
+    execute "gluster volume add-brick #{volume_name} stripe #{brick_count} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
+      action :run
+    end
+    node.set['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
+  elsif volume_values['volume_type'] == 'replicated'
+    Chef::Log.warn("#{volume_name} is a replicated volume, adjusting replica count to match new number of bricks")
+    node.set['gluster']['server']['volumes'][volume_name][replica_count] = brick_count
+    execute "gluster volume add-brick #{volume_name} replica #{brick_count} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
       action :run
     end
     node.set['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
