@@ -43,7 +43,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
   elsif volume_values['volume_type'] == 'replicated' || volume_values['volume_type'] == 'striped'
     Chef::Log.warn("#{volume_name} is a replicated or striped volume, adjusting replica count to match new number of bricks")
     node.set['gluster']['server']['volumes'][volume_name][replica_count] = brick_count
-    execute "gluster volume add-brick replica #{brick_count} #{volume_name} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
+    execute "gluster volume add-brick replica #{volume_name} #{brick_count} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
       action :run
     end
     node.set['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
