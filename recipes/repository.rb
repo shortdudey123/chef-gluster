@@ -26,7 +26,7 @@ when 'debian'
     uri "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/Debian/#{node['lsb']['codename']}/apt"
     distribution node['lsb']['codename']
     components ['main']
-    key "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/Debian/#{node['lsb']['codename']}/pubkey.gpg"
+    key "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/Debian/rsa.pub"
     deb_src true
     not_if do
       File.exist?("/etc/apt/sources.list.d/glusterfs-#{node['gluster']['version']}.list")
