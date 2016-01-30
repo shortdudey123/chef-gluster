@@ -57,6 +57,10 @@ default['gluster']['server']['peer_wait_retry_delay'] = 10
 # For extend recipe
 default['gluster']['server']['bricks_waiting_to_join'] = ''
 
+# For compile time loading of lvm gem
+default['lvm']['di-ruby-lvm']['compile_time'] = true
+default['lvm']['di-ruby-lvm-attrib']['compile_time'] = true
+
 # In your role cookbook or similar, copy one of the following examples to create your cluster
 # This example will create three gluster volumes over two nodes, with different volume types
 # And with different sizes
