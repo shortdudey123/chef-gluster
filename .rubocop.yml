@@ -1,10 +1,6 @@
 Metrics/LineLength:
   Max: 175
 
-Style/SingleSpaceBeforeFirstArg:
-  Exclude:
-    - 'metadata.rb'
-
 Style/RescueModifier:
   Exclude:
     - 'recipes/server_setup.rb'
@@ -18,3 +14,7 @@ Metrics/BlockNesting:
 Style/Next:
   Exclude:
     - 'recipes/server_setup.rb'
+
+Style/MutableConstant:
+  Exclude:
+    - 'Vagrantfile'

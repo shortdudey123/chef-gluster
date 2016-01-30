@@ -1,6 +1,7 @@
 def node_peer?(node)
   cmd = shell_out("gluster pool list | awk '{print $2}' | grep #{node}")
   # cmd.stdout has a \n at the end of it
+  # rubocop:disable Style/GuardClause
   if cmd.stdout.chomp == node
     return true
   else
