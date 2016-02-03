@@ -25,6 +25,8 @@ Vagrant.configure("2") do |c|
   c.vm.network "private_network", ip: "<%= config[:ipaddress] %>"
 <% end %>
 
+  c.vm.synced_folder ".", "/vagrant", disabled: true
+
   c.vm.provider :<%= config[:provider] %> do |p|
     <% if config[:additional_disk] && config[:provider] == 'virtualbox' %>
       <% disk_path = "/tmp/#{rand(36**50).to_s(36)}_disk2.vdi" %>
