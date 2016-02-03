@@ -47,8 +47,15 @@ when 'ubuntu'
     end
   end
 when 'redhat', 'centos'
+  # CentOS 6 and 7 have Gluster in the Storage SIG instead of a gluster hosted repo
+  repo_url = if node['platform_version'].to_i > 5
+               "http://mirror.centos.org/centos/$releasever/storage/$basearch/gluster-#{node['gluster']['version']}/"
+             else
+               "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/EPEL.repo/epel-$releasever/$basearch/"
+             end
+
   yum_repository 'glusterfs' do
-    url "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/EPEL.repo/epel-$releasever/$basearch/"
+    url repo_url
     gpgcheck false
     action :create
   end
