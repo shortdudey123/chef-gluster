@@ -7,3 +7,4 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '4.0.2'
 depends          'apt', '>= 2.0'
 depends          'yum', '>= 3.0'
+depends          'lvm', '>= 1.5.1'

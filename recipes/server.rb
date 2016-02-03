@@ -19,5 +19,7 @@
 #
 
 include_recipe 'gluster::server_install'
+include_recipe 'lvm'
 include_recipe 'gluster::server_setup'
 include_recipe 'gluster::server_extend'
+include_recipe 'gluster::volume_extend'

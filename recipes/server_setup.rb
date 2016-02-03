@@ -2,6 +2,7 @@
 # Cookbook Name:: gluster
 # Recipe:: server_setup
 #
+# Copyright 2015, Andrew Repton
 # Copyright 2015, Grant Ridder
 # Copyright 2015, Biola University
 #
@@ -18,67 +19,39 @@
 # limitations under the License.
 #
 
-# Loop through each configured partition
-if node['gluster']['server'].attribute?('disks')
-  node['gluster']['server']['disks'].each do |d|
-    # If a partition doesn't exist, create it
-    if `fdisk -l 2> /dev/null | grep '/dev/#{d}1'`.empty?
-      # Pass commands to fdisk to create a new partition
-      bash 'create partition' do
-        code "(echo n; echo p; echo 1; echo; echo; echo w) | fdisk /dev/#{d}"
-        action :run
-      end
-
-      # Format the new partition
-      execute 'format partition' do
-        command "mkfs.xfs -i size=512 /dev/#{d}1"
-        action :run
-      end
-    end
-
-    # Create a mount point
-    directory "#{node['gluster']['server']['brick_mount_path']}/#{d}1" do
-      recursive true
-      action :create
-    end
-
-    # Mount the partition and add to /etc/fstab
-    mount "#{node['gluster']['server']['brick_mount_path']}/#{d}1" do
-      device "/dev/#{d}1"
-      fstype 'xfs'
-      action [:mount, :enable]
-    end
-  end
+# Prepare Physical volumes
+node['gluster']['server']['disks'].each do |physical_device|
+  lvm_physical_volume physical_device
 end
 
 # Create and start volumes
-bricks = []
 node['gluster']['server']['volumes'].each do |volume_name, volume_values|
+  bricks = []
   # If the node is configured as a peer for the volume, create directories to use as bricks
   if volume_values['peers'].include?(node['fqdn']) || volume_values['peers'].include?(node['hostname'])
-    # If using LVM
-    if volume_values.attribute?('lvm_volumes') || node['gluster']['server'].attribute?('lvm_volumes')
-      # Use either configured LVM volumes or default LVM volumes
-      lvm_volumes = volume_values.attribute?('lvm_volumes') ? volume_values['lvm_volumes'] : node['gluster']['server']['lvm_volumes'].take(volume_values['replica_count'])
-      lvm_volumes.each do |v|
-        directory "#{node['gluster']['server']['brick_mount_path']}/#{v}/#{volume_name}" do
-          recursive true
-          action :create
-        end
-        bricks << "#{node['gluster']['server']['brick_mount_path']}/#{v}/#{volume_name}"
+    # Use either configured LVM volumes or default LVM volumes
+    # Configure the LV's per gluster volume
+    # Each LV is one brick
+    lvm_volume_group 'gluster' do
+      physical_volumes node['gluster']['server']['disks']
+      if volume_values.attribute?('filesystem')
+        filesystem = volume_values['filesystem']
+      else
+        Chef::Log.warn('No filesystem specified, defaulting to xfs')
+        filesystem = 'xfs'
       end
-    else
-      # Use either configured disks or default disks
-      disks = volume_values.attribute?('disks') ? volume_values['disks'] : node['gluster']['server']['disks'].take(volume_values['replica_count'])
-      disks.each do |d|
-        directory "#{node['gluster']['server']['brick_mount_path']}/#{d}1/#{volume_name}" do
-          action :create
-        end
-        bricks << "#{node['gluster']['server']['brick_mount_path']}/#{d}1/#{volume_name}"
+      # Even though this says volume_name, it's actually Brick Name. At the moment this method only supports one brick per volume per server
+      logical_volume volume_name do
+        size volume_values['size']
+        filesystem filesystem
+        mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}"
       end
     end
+    bricks << "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}/brick"
     # Save the array of bricks to the node's attributes
-    node.set['gluster']['server']['bricks'] = bricks
+    node.set['gluster']['server']['volumes'][volume_name]['bricks'] = bricks
+  else
+    Chef::Log.warn('This server is not configured for this volume')
   end
 
   # Only continue if the node is the first peer in the array
@@ -95,7 +68,6 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       # Wait here until the peer reaches connected status (needed for volume create later)
       execute "gluster peer status | grep -A 2 #{peer} | tail -1 | grep 'Peer in Cluster (Connected)'" do
         action :run
-        not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
         retries node['gluster']['server']['peer_wait_retries']
         retry_delay node['gluster']['server']['peer_wait_retry_delay']
       end
@@ -108,22 +80,14 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       brick_count = 0
       peers = volume_values.attribute?('peer_names') ? volume_values['peer_names'] : volume_values['peers']
       peers.each do |peer|
-        if peer == node['hostname'] || peer == node['fqdn']
-          chef_node = node
-        else
-          begin
-            chef_node = Chef::Node.load(peer)
-          rescue Net::HTTPServerException
-            Chef::Log.warn("Unable to find a chef node for #{peer}")
-            next
-          end
-        end
-        chef_fqdn = chef_node['fqdn'] || chef_node['hostname']
-        if chef_node['gluster']['server'].attribute?('bricks')
-          peer_bricks = chef_node['gluster']['server']['bricks'].select { |brick| brick.include? volume_name }
-          volume_bricks[chef_fqdn] = peer_bricks
+        # As every server will be running the same code, we know what the brick paths will be on every node
+        if node['gluster']['server']['volumes'][volume_name].attribute?('bricks')
+          peer_bricks = node['gluster']['server']['volumes'][volume_name]['bricks']
+          volume_bricks[peer] = peer_bricks
           brick_count += (peer_bricks.count || 0)
-        end rescue NoMethodError
+        else
+          Chef::Log.warn("No bricks found for volume #{volume_name}")
+        end
       end
 
       # Create option string

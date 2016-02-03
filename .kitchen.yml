@@ -25,9 +25,9 @@ suites:
     attributes:
       gluster:
         server:
-          brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
+          brick_mount_path: "/data"
           volumes:
             gv0:
               peers: 
@@ -35,6 +35,10 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "replicated"
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: replicated2
     driver:
@@ -50,7 +54,7 @@ suites:
       gluster:
         server:
           disks:
-            - sdb
+            - /dev/sdb
           brick_mount_path: "/data"
           volumes:
             gv0:
@@ -59,6 +63,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "replicated"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: distributed1
     driver:
@@ -73,9 +83,9 @@ suites:
     attributes:
       gluster:
         server:
-          brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
+          brick_mount_path: "/data"
           volumes:
             gv0:
               peers: 
@@ -83,6 +93,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: distributed2
     driver:
@@ -98,7 +114,7 @@ suites:
       gluster:
         server:
           disks:
-            - sdb
+            - /dev/sdb
           brick_mount_path: "/data"
           volumes:
             gv0:
@@ -107,6 +123,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: distributed-repl1
     driver:
@@ -123,7 +145,7 @@ suites:
         server:
           brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
           volumes:
             gv0:
               peers: 
@@ -133,6 +155,7 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-replicated"
+              size: "5 G"
 
   - name: distributed-repl2
     driver:
@@ -148,7 +171,7 @@ suites:
       gluster:
         server:
           disks:
-            - sdb
+            - /dev/sdb
           brick_mount_path: "/data"
           volumes:
             gv0:
@@ -159,6 +182,7 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-replicated"
+              size: "5G"
 
   - name: distributed-repl3
     driver:
@@ -175,7 +199,7 @@ suites:
         server:
           brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
           volumes:
             gv0:
               peers: 
@@ -185,6 +209,7 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-replicated"
+              size: "5G"
 
   - name: distributed-repl4
     driver:
@@ -200,7 +225,7 @@ suites:
       gluster:
         server:
           disks:
-            - sdb
+            - /dev/sdb
           brick_mount_path: "/data"
           volumes:
             gv0:
@@ -211,6 +236,7 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-replicated"
+              size: "5G"
 
   - name: striped1
     driver:
@@ -227,7 +253,7 @@ suites:
         server:
           brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
           volumes:
             gv0:
               peers: 
@@ -235,6 +261,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "striped"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: striped2
     driver:
@@ -250,7 +282,7 @@ suites:
       gluster:
         server:
           disks:
-            - sdb
+            - /dev/sdb
           brick_mount_path: "/data"
           volumes:
             gv0:
@@ -259,6 +291,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "striped"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: distributed-striped1
     driver:
@@ -275,7 +313,7 @@ suites:
         server:
           brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
           volumes:
             gv0:
               peers: 
@@ -285,6 +323,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-striped"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: distributed-striped2
     driver:
@@ -301,7 +345,7 @@ suites:
         server:
           brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
           volumes:
             gv0:
               peers: 
@@ -311,6 +355,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-striped"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: distributed-striped3
     driver:
@@ -327,7 +377,7 @@ suites:
         server:
           brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
           volumes:
             gv0:
               peers: 
@@ -337,6 +387,12 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-striped"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
   - name: distributed-striped4
     driver:
@@ -353,7 +409,7 @@ suites:
         server:
           brick_mount_path: "/data"
           disks:
-            - sdb
+            - /dev/sdb
           volumes:
             gv0:
               peers: 
@@ -363,4 +419,10 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-striped"
+              lvm_volumes: 
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
 
