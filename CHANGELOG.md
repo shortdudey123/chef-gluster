@@ -1,5 +1,11 @@
 # gluster cookbook CHANGELOG
 
+## v5.0.0 (2016-02-03)
+- **[PR #44](https://github.com/shortdudey123/chef-gluster/pull/44)** - Fix brick_in_volume for long hostnames
+- **[PR #47](https://github.com/shortdudey123/chef-gluster/pull/47)** - Re-architecture of gluster cookbook to support multi-volume per peer, LVM, size declaration
+- **[PR #48](https://github.com/shortdudey123/chef-gluster/pull/48)** - Add Debian support
+- **[PR #51](https://github.com/shortdudey123/chef-gluster/pull/51)** - Update repo for Centos 6/7
+
 ## v4.0.2 (2015-10-21)
 - **[PR #39](https://github.com/shortdudey123/chef-gluster/pull/39)** - Fix the client package name for rhel
 - **[PR #42](https://github.com/shortdudey123/chef-gluster/pull/42)** - Add owner/group/mode settings to gluster_mount LWRP
