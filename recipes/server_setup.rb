@@ -78,8 +78,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       # Create a hash of peers and their bricks
       volume_bricks = {}
       brick_count = 0
-      peers = volume_values.attribute?('peer_names') ? volume_values['peer_names'] : volume_values['peers']
-      peers.each do |peer|
+      volume_values['peers'].each do |peer|
         # As every server will be running the same code, we know what the brick paths will be on every node
         if node['gluster']['server']['volumes'][volume_name].attribute?('bricks')
           peer_bricks = node['gluster']['server']['volumes'][volume_name]['bricks']
