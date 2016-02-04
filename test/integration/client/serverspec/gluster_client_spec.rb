@@ -2,7 +2,7 @@ require 'spec_helper'
 
 package_name =
   case os[:family]
-  when'RedHat'
+  when 'RedHat'
     'glusterfs'
   when 'Ubuntu'
     'glusterfs-client'
