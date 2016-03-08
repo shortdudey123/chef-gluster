@@ -8,3 +8,6 @@ version          '5.0.0'
 depends          'apt', '>= 2.0'
 depends          'yum', '>= 3.0'
 depends          'lvm', '>= 1.5.1'
+
+source_url 'https://github.com/shortdudey123/chef-gluster' if respond_to?(:source_url)
+issues_url 'https://github.com/shortdudey123/chef-gluster/issues' if respond_to?(:issues_url)
