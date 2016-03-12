@@ -1,5 +1,11 @@
 # gluster cookbook CHANGELOG
 
+## v5.0.1 (2016-03-12)
+- **[PR #52](https://github.com/shortdudey123/chef-gluster/pull/52)** - Correct the usage of the peer_names attribute
+- **[PR #53](https://github.com/shortdudey123/chef-gluster/pull/53)** - Fix spacing in case statement
+- **[PR #56](https://github.com/shortdudey123/chef-gluster/pull/56)** - Allow host check to match when hostname is listed under 'Other names'
+- **[PR #57](https://github.com/shortdudey123/chef-gluster/pull/57)** - Add source_url and issues_url to metadata
+
 ## v5.0.0 (2016-02-03)
 - **[PR #44](https://github.com/shortdudey123/chef-gluster/pull/44)** - Fix brick_in_volume for long hostnames
 - **[PR #47](https://github.com/shortdudey123/chef-gluster/pull/47)** - Re-architecture of gluster cookbook to support multi-volume per peer, LVM, size declaration
@@ -16,7 +22,6 @@
 - **[PR #36](https://github.com/shortdudey123/chef-gluster/pull/36)** - Allow disabling of public Gluster repo
 - **[PR #37](https://github.com/shortdudey123/chef-gluster/pull/37)** - Fix default attribute value for `['gluster']['client']['volumes']`
 - **[PR #37](https://github.com/shortdudey123/chef-gluster/pull/37)** - Add include for client_mount recipe in client recipe
-
 
 ## v4.0.0 (2015-08-28)
 - **[PR #17](https://github.com/shortdudey123/chef-gluster/pull/17)** - Allow hostname for older versions of chef-server
