@@ -1,5 +1,8 @@
 # gluster cookbook CHANGELOG
 
+## Unreleased
+- **[PR #58](https://github.com/shortdudey123/chef-gluster/pull/58)** - Fix case statement syntax
+
 ## v5.0.1 (2016-03-12)
 - **[PR #52](https://github.com/shortdudey123/chef-gluster/pull/52)** - Correct the usage of the peer_names attribute
 - **[PR #53](https://github.com/shortdudey123/chef-gluster/pull/53)** - Fix spacing in case statement
