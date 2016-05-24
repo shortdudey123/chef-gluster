@@ -81,10 +81,10 @@ def basic_mount_options
 end
 
 def mount_options_for_backup_server
-  case
-  when new_resource.backup_server.class == String
+  case new_resource.backup_server.class
+  when String
     ',backupvolfile-server=' + new_resource.backup_server
-  when new_resource.backup_server.class == Array
+  when Array
     ',backupvolfile-server=' + new_resource.backup_server.join(',backupvolfile-server=')
   end
 end
