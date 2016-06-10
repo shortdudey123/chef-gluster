@@ -34,9 +34,9 @@ default['gluster']['server']['enable'] = true
 # Package dependencies
 case node['platform']
 when 'ubuntu'
-  default['gluster']['server']['dependencies'] = ['xfsprogs']
+  default['gluster']['server']['dependencies'] = %w(xfsprogs lvm2)
 when 'redhat', 'centos'
-  default['gluster']['server']['dependencies'] = ['xfsprogs']
+  default['gluster']['server']['dependencies'] = %w(xfsprogs lvm2)
 end
 
 # Default path to use for mounting bricks
