@@ -2,6 +2,7 @@
 
 ## Unreleased
 - **[PR #58](https://github.com/shortdudey123/chef-gluster/pull/58)** - Fix case statement syntax
+- **[PR #59](https://github.com/shortdudey123/chef-gluster/pull/59)** - Fix problems with volume_extend recipe
 - **[PR #61](https://github.com/shortdudey123/chef-gluster/pull/61)** - Update disk controller logic for Vagrant template
 
 ## v5.0.1 (2016-03-12)

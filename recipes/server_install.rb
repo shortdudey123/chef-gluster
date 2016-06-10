@@ -22,7 +22,9 @@ include_recipe 'gluster::repository' unless node['gluster']['repo'] == 'private'
 
 # Install dependencies
 node['gluster']['server']['dependencies'].each do |d|
-  package d
+  package d do
+    action :nothing
+  end.run_action :install
 end
 
 # Install the server package
