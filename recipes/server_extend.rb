@@ -6,6 +6,10 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     break
   end
 
+  unless node.default['gluster']['server']['volumes'][volume_name].attribute?('bricks_waiting_to_join')
+    node.default['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
+  end
+
   # We want to check if a new peer has been added to the attribute node['gluster']['server']['volumes']['$volume_name']['peers'].
   # The first server that was ALREADY in the gluster pool after the new one has run chef will reach this point of the code (it will have probed the new one in)
   peers = volume_values.attribute?('peer_names') ? volume_values['peer_names'] : volume_values['peers']
@@ -15,10 +19,6 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     rescue Net::HTTPServerException
       Chef::Log.warn("Unable to find a chef node for #{peer}")
       next
-    end
-
-    unless node.default['gluster']['server']['volumes'][volume_name].attribute?('bricks_waiting_to_join')
-      node.default['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
     end
 
     peer_bricks = chef_node['gluster']['server']['volumes'][volume_name]['bricks'].select { |brick| brick.include? volume_name }
