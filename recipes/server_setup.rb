@@ -107,7 +107,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         options = "replica #{brick_count}"
       when 'distributed-replicated'
         # brick count has to be a multiple of replica count
-        if brick_count % volume_values['replica_count'] != 0
+        if (brick_count % volume_values['replica_count']).nonzero?
           Chef::Log.warn("Correct number of bricks not available: #{brick_count} needs to be a multiple of #{volume_values['replica_count']}. Skipping...")
           next
         else
@@ -119,7 +119,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
         options = "stripe #{brick_count}"
       when 'distributed-striped'
-        if brick_count % volume_values['replica_count'] != 0
+        if (brick_count % volume_values['replica_count']).nonzero?
           Chef::Log.warn("Correct number of bricks not available: #{brick_count} available, at least #{required_bricks} are required for volume #{volume_name}. Skipping...")
           next
         else
