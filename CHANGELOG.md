@@ -5,6 +5,7 @@
 - **[PR #59](https://github.com/shortdudey123/chef-gluster/pull/59)** - Fix problems with volume_extend recipe
 - **[PR #61](https://github.com/shortdudey123/chef-gluster/pull/61)** - Update disk controller logic for Vagrant template
 - **[PR #62](https://github.com/shortdudey123/chef-gluster/pull/62)** - Fix undefined method error in server_extend recipe
+- **[PR #62](https://github.com/shortdudey123/chef-gluster/pull/63)** - Fix Ruby syntax per Rubocop
 
 ## v5.0.1 (2016-03-12)
 - **[PR #52](https://github.com/shortdudey123/chef-gluster/pull/52)** - Correct the usage of the peer_names attribute
