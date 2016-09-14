@@ -426,3 +426,69 @@ suites:
               disks:
                 - sdb
 
+  - name: client1
+    driver:
+      ipaddress: 192.168.10.10
+      vagrantfile_erb: test/integration/Vagrantfile.erb
+      vm_hostname: gluster1
+      additional_disk:
+        size: 10
+    run_list:
+      - recipe[testcookbook::set_hostname]
+      - recipe[gluster::server]
+    attributes:
+      gluster:
+        server:
+          brick_mount_path: "/data"
+          disks:
+            - /dev/sdb
+          volumes:
+            gv0:
+              peers:
+                - "gluster2"
+                - "gluster1"
+              replica_count: 2
+              volume_type: "replicated"
+              lvm_volumes:
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
+
+  - name: client2
+    driver:
+      ipaddress: 192.168.10.20
+      vagrantfile_erb: test/integration/Vagrantfile.erb
+      vm_hostname: gluster2
+      additional_disk:
+        size: 10
+    run_list:
+      - recipe[testcookbook::set_hostname]
+      - recipe[gluster::server]
+      - recipe[gluster::client]
+    attributes:
+      gluster:
+        server:
+          brick_mount_path: "/data"
+          disks:
+            - /dev/sdb
+          volumes:
+            gv0:
+              peers:
+                - "gluster2"
+                - "gluster1"
+              replica_count: 2
+              volume_type: "replicated"
+              lvm_volumes:
+                - sdb
+              size: "5G"
+              filesystem: "xfs"
+              disks:
+                - sdb
+        client:
+          volumes:
+            gv0:
+              mount_point: "/mnt/gv0"
+              server: "gluster2"
+              backup_server: "gluster1"
