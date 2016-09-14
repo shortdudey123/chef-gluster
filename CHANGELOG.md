@@ -9,6 +9,7 @@
 - **[PR #66](https://github.com/shortdudey123/chef-gluster/pull/66)** - Update test-kitchen OS's
 - **[PR #67](https://github.com/shortdudey123/chef-gluster/pull/67)** - Fix serverspec verification
 - **[PR #68](https://github.com/shortdudey123/chef-gluster/pull/68)** - Add kitchen testing for gluster::client recipe
+- **[PR #69](https://github.com/shortdudey123/chef-gluster/pull/69)** - Update yum_repository resource
 
 ## v5.0.1 (2016-03-12)
 - **[PR #52](https://github.com/shortdudey123/chef-gluster/pull/52)** - Correct the usage of the peer_names attribute
