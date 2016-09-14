@@ -8,7 +8,7 @@
 #
 
 ['192.168.10.10 gluster1', '192.168.10.20 gluster2', '192.168.10.30 gluster3', '192.168.10.40 gluster4'].each do |glusternode|
-  execute 'set_hostnames' do
+  execute "set_hostnames for #{glusternode}" do
     command "echo #{glusternode} >> /etc/hosts"
   end
 end
