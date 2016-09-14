@@ -155,7 +155,7 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "distributed-replicated"
-              size: "5 G"
+              size: "5G"
 
   - name: distributed-repl2
     driver:
