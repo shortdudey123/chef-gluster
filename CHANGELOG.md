@@ -7,6 +7,7 @@
 - **[PR #62](https://github.com/shortdudey123/chef-gluster/pull/62)** - Fix undefined method error in server_extend recipe
 - **[PR #63](https://github.com/shortdudey123/chef-gluster/pull/63)** - Fix Ruby syntax per Rubocop
 - **[PR #66](https://github.com/shortdudey123/chef-gluster/pull/66)** - Update test-kitchen OS's
+- **[PR #67](https://github.com/shortdudey123/chef-gluster/pull/67)** - Fix serverspec verification
 
 ## v5.0.1 (2016-03-12)
 - **[PR #52](https://github.com/shortdudey123/chef-gluster/pull/52)** - Correct the usage of the peer_names attribute
