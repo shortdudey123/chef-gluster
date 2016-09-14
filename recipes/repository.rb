@@ -55,7 +55,7 @@ when 'redhat', 'centos'
              end
 
   yum_repository 'glusterfs' do
-    url repo_url
+    baseurl repo_url
     gpgcheck false
     action :create
   end
