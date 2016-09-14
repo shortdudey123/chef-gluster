@@ -156,4 +156,8 @@ To test a striped volume on CentOS 6.8:
 kitchen converge striped\[12]-centos-68
 kitchen verify striped2-centos-68
 
+To test a fuse client on Ubuntu 14.04:
+kitchen converge client\[12]-ubuntu-1404
+kitchen verify client2-ubuntu-1404
+
 Please note that at present the kitchen setup only supports Virtualbox
