@@ -4,6 +4,7 @@
 
 - **[PR #72](https://github.com/shortdudey123/chef-gluster/pull/72)** - Fix backup-volfile-server(s) in mount provider
 - **[PR #73](https://github.com/shortdudey123/chef-gluster/pull/73)** - Bump Travis ruby version to 2.3.1
+- **[PR #74](https://github.com/shortdudey123/chef-gluster/pull/74)** - Bump Gluster version to 3.8
 - **[PR #75](https://github.com/shortdudey123/chef-gluster/pull/75)** - Disable Metrics/BlockLength cop
 
 ## v5.0.2 (2016-09-14)
