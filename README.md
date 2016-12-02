@@ -1,7 +1,7 @@
-gluster Cookbook
-================
+# gluster Cookbook
 
 [![Build Status](https://travis-ci.org/shortdudey123/chef-gluster.svg)](https://travis-ci.org/shortdudey123/chef-gluster)
+[![Cookbook Version](https://img.shields.io/cookbook/v/gluster.svg)](https://supermarket.chef.io/cookbooks/gluster)
 
 This cookbook is used to install and configure Gluster on both servers and clients. This cookbook makes several assumptions when configuring Gluster servers:
 
@@ -9,18 +9,20 @@ This cookbook is used to install and configure Gluster on both servers and clien
 2. A second physical disk has been added, unformatted, to the server. This cookbook will install lvm and configure the disks automatically.
 3. All peers for a volume will be configured with the same number of bricks
 
-Platforms
----------
-This cookbook has been tested on Ubuntu 12.04/14.04, CentOS 6.7 and CentOS 7.1
+## Platforms
+
+This cookbook has been tested on:
+- Ubuntu 14.04
+- Ubuntu 16.04
+- Centos 6.8
+- Centos 7.2
 
 As this cookbook uses Semantic Versioning, major version number bumps are not backwards compatible. Especially the change from v4 to v5 will require a rebuild of the gluster nodes.
-This cookbook has been tested on Ubuntu 12.04/14.04, CentOS 6.5/7.1 and Debian Wheezy
 
-Attributes
-----------
+## Attributes
 
 ### gluster::default
-- `node['gluster']['version']` - version to install, defaults to 3.4
+- `node['gluster']['version']` - version to install, defaults to 3.8
 - `node['gluster']['repo']` - repo to install from: can be public or private, defaults to public, private requires a so-called "private" repo to be configured in a wrapper cookbook for example
 
 ### gluster::client
@@ -53,8 +55,8 @@ Other attributes include:
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook.
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['filesystem']` - The filesystem to use. This defaults to xfs.
 
-LWRPs
------
+## LWRPs
+
 Use the gluster_mount LWRP to mount volumes on clients:
 
 ```ruby
@@ -91,8 +93,7 @@ end
 
 - `mode` - File mode of the underlying mount point directory. Defaults to `nil`. Optional.
 
-Usage
------
+## Usage
 
 On two or more identical systems, attach the desired number of dedicated disks to use for Gluster storage. Add the `gluster::server` recipe to the node's run list and add any appropriate attributes, such as volumes to the `['gluster']['server']['volumes']` attribute. If the cookbook will be used to manage disks, add the disks to the `['gluster']['server']['disks']` attribute; otherwise format the disks appropriately and add them to the `['gluster']['server']['volumes'][VOLUME_NAME]['disks']` attribute. Once all peers for a volume have configured their bricks, the 'master' peer (the first in the array) will create and start the volume.
 
@@ -137,8 +138,7 @@ default['gluster']['server']['volumes'] = {
 
 For clients, add the gluster::default or gluster::client recipe to the node's run list, and mount volumes using the `gluster_mount` LWRP. The Gluster volume will be mounted on the next chef-client run (provided the volume exists and is available) and added to /etc/fstab.
 
-Testing
--------
+## Testing
 
 There is a kitchen file provided to allow testing of the various versions. Examples of tests are:
 
