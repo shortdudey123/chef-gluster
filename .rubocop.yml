@@ -1,3 +1,8 @@
+AllCops:
+  DisplayCopNames: true
+  Exclude:
+    - vendor/**/*
+
 Metrics/LineLength:
   Max: 175
 
@@ -10,6 +15,9 @@ Metrics/AbcSize:
 
 Metrics/BlockNesting:
   Max: 4
+
+Metrics/BlockLength:
+  Enabled: false
 
 Style/Next:
   Exclude:
