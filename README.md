@@ -144,9 +144,9 @@ There is a kitchen file provided to allow testing of the various versions. Examp
 
 (Depending on your shell, you may or may not need the \ in the RegEx)
 
-To test a replicated volume on Ubuntu 12.04:
-kitchen converge replicated\[12]-ubuntu-1204
-kitchen verify replicated2-ubuntu-1204
+To test a replicated volume on Ubuntu 16.04:
+kitchen converge replicated\[12]-ubuntu-1604
+kitchen verify replicated2-ubuntu-1604
 
 To test a distributed-replicated volume on CentOS 7.2:
 kitchen converge distributed-repl\[1234]-centos-72
