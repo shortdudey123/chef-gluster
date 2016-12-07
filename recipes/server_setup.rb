@@ -32,21 +32,33 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     # Use either configured LVM volumes or default LVM volumes
     # Configure the LV's per gluster volume
     # Each LV is one brick
-    lvm_volume_group 'gluster' do
-      physical_volumes node['gluster']['server']['disks']
-      if volume_values.attribute?('filesystem')
-        filesystem = volume_values['filesystem']
-      else
-        Chef::Log.warn('No filesystem specified, defaulting to xfs')
-        filesystem = 'xfs'
+    if node['gluster']['server']['disks'].any?
+      lvm_volume_group 'gluster' do
+        physical_volumes node['gluster']['server']['disks']
+        if volume_values.attribute?('filesystem')
+          filesystem = volume_values['filesystem']
+        else
+          Chef::Log.warn('No filesystem specified, defaulting to xfs')
+          filesystem = 'xfs'
+        end
+        # Even though this says volume_name, it's actually Brick Name. At the moment this method only supports one brick per volume per server
+        logical_volume volume_name do
+          size volume_values['size']
+          filesystem filesystem
+          mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}"
+        end
       end
-      # Even though this says volume_name, it's actually Brick Name. At the moment this method only supports one brick per volume per server
-      logical_volume volume_name do
-        size volume_values['size']
-        filesystem filesystem
-        mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}"
+    else
+      Chef::Log.warn('No disks defined for LVM, create gluster on existing filesystem')
+      directory "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}" do
+        owner 'root'
+        group 'root'
+        mode '0755'
+        recursive true
+        action :create
       end
     end
+
     bricks << "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}/brick"
     # Save the array of bricks to the node's attributes
     node.normal['gluster']['server']['volumes'][volume_name]['bricks'] = bricks
@@ -92,6 +104,12 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       # Create option string
       force = false
       options = ''
+
+      # force when gluster is on rootfs
+      if system("df #{node['gluster']['server']['brick_mount_path']}/#{volume_name}/ --output=target |grep -q '^/$'")
+        Chef::Log.warn("Directory #{node['gluster']['server']['brick_mount_path']}/#{volume_name}/ on root filesystem, force creating volume #{volume_name}")
+        force = true
+      end
       case volume_values['volume_type']
       when 'distributed'
         Chef::Log.warn('You have specified distributed, serious data loss can occur in this mode as files are spread randomly among the bricks')

@@ -46,6 +46,8 @@ default['gluster']['server']['volumes'] = {}
 # Set by the cookbook once bricks are configured and ready to use
 default['gluster']['server']['bricks'] = []
 
+default['gluster']['server']['disks'] = []
+
 # Retry delays for attempting peering
 default['gluster']['server']['peer_retries'] = 0
 default['gluster']['server']['peer_retry_delay'] = 10
