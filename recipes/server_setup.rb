@@ -59,7 +59,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       end
     end
 
-    bricks << "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}/brick"
+    bricks << "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}/#{node['gluster']['server']['brick_dir']}"
     # Save the array of bricks to the node's attributes
     node.normal['gluster']['server']['volumes'][volume_name]['bricks'] = bricks
   else

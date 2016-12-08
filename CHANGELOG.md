@@ -1,6 +1,7 @@
 # gluster cookbook CHANGELOG
 
 ## Unreleased
+- **[PR #78](https://github.com/shortdudey123/chef-gluster/pull/78)** - Allow customize brick directory by attribute
 - **[PR #77](https://github.com/shortdudey123/chef-gluster/pull/77)** - Allow use gluster recipe on already existed filesystem
 
 ## v5.1.0 (2016-12-02)
