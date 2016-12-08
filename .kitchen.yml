@@ -12,6 +12,46 @@ platforms:
   - name: centos-7.2
 
 suites:
+  - name: shareddisk-replicated1
+    driver:
+      ipaddress: 192.168.10.10
+      vagrantfile_erb: test/integration/Vagrantfile.erb
+      vm_hostname: gluster1
+    run_list:
+      - recipe[testcookbook::set_hostname]
+      - recipe[gluster::server]
+    attributes:
+      gluster:
+        server:
+          brick_mount_path: "/data"
+          volumes:
+            gv0:
+              peers:
+                - "gluster2"
+                - "gluster1"
+              replica_count: 2
+              volume_type: "replicated"
+
+  - name: shareddisk-replicated2
+    driver:
+      ipaddress: 192.168.10.20
+      vagrantfile_erb: test/integration/Vagrantfile.erb
+      vm_hostname: gluster2
+    run_list:
+      - recipe[testcookbook::set_hostname]
+      - recipe[gluster::server]
+    attributes:
+      gluster:
+        server:
+          brick_mount_path: "/data"
+          volumes:
+            gv0:
+              peers:
+                - "gluster2"
+                - "gluster1"
+              replica_count: 2
+              volume_type: "replicated"
+
   - name: replicated1
     driver:
       ipaddress: 192.168.10.10
