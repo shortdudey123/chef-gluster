@@ -1,8 +1,9 @@
 # gluster cookbook CHANGELOG
 
 ## Unreleased
-- **[PR #78](https://github.com/shortdudey123/chef-gluster/pull/78)** - Allow customize brick directory by attribute
 - **[PR #77](https://github.com/shortdudey123/chef-gluster/pull/77)** - Allow use gluster recipe on already existed filesystem
+- **[PR #78](https://github.com/shortdudey123/chef-gluster/pull/78)** - Allow customize brick directory by attribute
+- **[PR #79](https://github.com/shortdudey123/chef-gluster/pull/79)** - Fix gluster volume create force
 
 ## v5.1.0 (2016-12-02)
 - **[PR #72](https://github.com/shortdudey123/chef-gluster/pull/72)** - Fix backup-volfile-server(s) in mount provider

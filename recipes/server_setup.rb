@@ -105,11 +105,6 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       force = false
       options = ''
 
-      # force when gluster is on rootfs
-      if system("df #{node['gluster']['server']['brick_mount_path']}/#{volume_name}/ --output=target |grep -q '^/$'")
-        Chef::Log.warn("Directory #{node['gluster']['server']['brick_mount_path']}/#{volume_name}/ on root filesystem, force creating volume #{volume_name}")
-        force = true
-      end
       case volume_values['volume_type']
       when 'distributed'
         Chef::Log.warn('You have specified distributed, serious data loss can occur in this mode as files are spread randomly among the bricks')
@@ -155,18 +150,22 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
           end
         end
       end
-      if force == true
-        options << ' force'
-        # Gluster still requires cli confirmation even if you use force for some odd reason.
-        execute "echo y | gluster volume create #{volume_name} #{options}" do
-          action :run
-          not_if options.empty?
-        end
-      else
-        execute "gluster volume create #{volume_name} #{options}" do
-          action :run
-          not_if options.empty?
-        end
+
+      volume_create_cmd = "gluster volume create #{volume_name} #{options}"
+
+      execute 'gluster volume create' do
+        command lazy {
+          if force
+            "echo y | #{volume_create_cmd} force"
+          elsif system("df #{node['gluster']['server']['brick_mount_path']}/#{volume_name}/ --output=target |grep -q '^/$'") && node['gluster']['server']['disks'].empty?
+            Chef::Log.warn("Directory #{node['gluster']['server']['brick_mount_path']}/ on root filesystem, force creating volume #{volume_name}")
+            "echo y | #{volume_create_cmd} force"
+          else
+            volume_create_cmd
+          end
+        }
+        action :run
+        not_if options.empty?
       end
     end
 
