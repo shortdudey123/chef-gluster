@@ -46,7 +46,11 @@ default['gluster']['server']['volumes'] = {}
 # Set by the cookbook once bricks are configured and ready to use
 default['gluster']['server']['bricks'] = []
 
+# List of disk managed by lvm
 default['gluster']['server']['disks'] = []
+
+# default brick directory name
+default['gluster']['server']['brick_dir'] = 'brick'
 
 # Retry delays for attempting peering
 default['gluster']['server']['peer_retries'] = 0
