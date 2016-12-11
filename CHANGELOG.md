@@ -1,6 +1,7 @@
 # gluster cookbook CHANGELOG
 
 ## Unreleased
+- **[PR #80](https://github.com/shortdudey123/chef-gluster/pull/80)** - Add license and fix readme
 
 ## v5.2.0 (2016-12-09)
 - **[PR #77](https://github.com/shortdudey123/chef-gluster/pull/77)** - Allow use gluster recipe on already existed filesystem
