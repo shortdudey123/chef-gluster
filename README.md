@@ -36,14 +36,14 @@ Node attributes to specify volumes to mount. This has been deprecated in favor o
 Node attributes to specify server volumes to create
 
 The absolute minimum configuration is:
-- `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['sdb', 'sdc'])
+- `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['/dev/sdb', '/dev/sdc'])
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['peers']` - an array of FQDNs for peers used in the volume
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['volume_type']` - the volume type to use; this value can be 'replicated', 'distributed-replicated', 'distributed', 'striped' or 'distributed-striped'
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook and uses the syntax defined here: https://github.com/chef-cookbooks/lvm .
 
 Other attributes include:
 - `node['gluster']['server']['brick_mount_path']` - default path to use for mounting bricks
-- `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['sdb', 'sdc'])
+- `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['/dev/sdb', '/dev/sdc'])
 - `node['gluster']['server']['peer_retries']` - attempt to connect to peers up to N times
 - `node['gluster']['server']['peer_retry_delays']` - number of seconds to wait between attempts to initially attempt to connect to peers
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['allowed_hosts']` - an optional array of IP addresses to allow access to the volume
