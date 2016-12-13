@@ -14,8 +14,9 @@ platforms:
 suites:
   - name: shareddisk-replicated1
     driver:
-      ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.10
       vm_hostname: gluster1
     run_list:
       - recipe[testcookbook::set_hostname]
@@ -36,8 +37,9 @@ suites:
 
   - name: shareddisk-replicated2
     driver:
-      ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.20
       vm_hostname: gluster2
     run_list:
       - recipe[testcookbook::set_hostname]
@@ -58,11 +60,20 @@ suites:
 
   - name: replicated1
     driver:
-      ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.10
       vm_hostname: gluster1
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/replicated1.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/replicated1.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -86,11 +97,20 @@ suites:
 
   - name: replicated2
     driver:
-      ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.20
       vm_hostname: gluster2
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/replicated2.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/replicated2.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -116,11 +136,20 @@ suites:
 
   - name: distributed1
     driver:
-      ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.10
       vm_hostname: gluster1
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed1.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed1.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -146,11 +175,20 @@ suites:
 
   - name: distributed2
     driver:
-      ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.20
       vm_hostname: gluster2
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed2.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed2.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -176,11 +214,20 @@ suites:
 
   - name: distributed-repl1
     driver:
-      ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.10
       vm_hostname: gluster1
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-repl1.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-repl1.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -203,11 +250,20 @@ suites:
 
   - name: distributed-repl2
     driver:
-      ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.20
       vm_hostname: gluster2
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-repl2.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-repl2.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -230,11 +286,20 @@ suites:
 
   - name: distributed-repl3
     driver:
-      ipaddress: 192.168.10.30
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.30
       vm_hostname: gluster3
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-repl3.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-repl3.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -257,11 +322,20 @@ suites:
 
   - name: distributed-repl4
     driver:
-      ipaddress: 192.168.10.40
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.40
       vm_hostname: gluster4
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-repl4.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-repl4.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -284,11 +358,20 @@ suites:
 
   - name: striped1
     driver:
-      ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.10
       vm_hostname: gluster1
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/striped1.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/striped1.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -314,11 +397,20 @@ suites:
 
   - name: striped2
     driver:
-      ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.20
       vm_hostname: gluster2
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/striped2.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/striped2.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -344,11 +436,20 @@ suites:
 
   - name: distributed-striped1
     driver:
-      ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.10
       vm_hostname: gluster1
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-striped1.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-striped1.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -376,11 +477,20 @@ suites:
 
   - name: distributed-striped2
     driver:
-      ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.20
       vm_hostname: gluster2
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-striped2.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-striped2.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -408,11 +518,20 @@ suites:
 
   - name: distributed-striped3
     driver:
-      ipaddress: 192.168.10.30
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.30
       vm_hostname: gluster3
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-striped3.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-striped3.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -440,11 +559,20 @@ suites:
 
   - name: distributed-striped4
     driver:
-      ipaddress: 192.168.10.40
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.40
       vm_hostname: gluster4
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/distributed-striped4.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/distributed-striped4.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -472,11 +600,20 @@ suites:
 
   - name: client1
     driver:
-      ipaddress: 192.168.10.10
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.10
       vm_hostname: gluster1
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/client1.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/client1.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
@@ -502,11 +639,20 @@ suites:
 
   - name: client2
     driver:
-      ipaddress: 192.168.10.20
-      vagrantfile_erb: test/integration/Vagrantfile.erb
+      network:
+        private_network:
+          ip: 192.168.10.20
       vm_hostname: gluster2
-      additional_disk:
-        size: 10
+      customize:
+        createhd:
+          filename: ./tmp/client2.vmdk
+          size: 10240
+        storageattach:
+          storagectl: SATA Controller
+          port: 1
+          device: 0
+          type: hdd
+          medium: ./tmp/client2.vmdk
     run_list:
       - recipe[testcookbook::set_hostname]
       - recipe[gluster::server]
