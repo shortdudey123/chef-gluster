@@ -23,7 +23,7 @@ when 'debian'
   include_recipe 'apt::default'
 
   apt_repository "glusterfs-#{node['gluster']['version']}" do
-    uri "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/Debian/#{node['lsb']['codename']}/apt"
+    uri "https://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/Debian/#{node['lsb']['codename']}/apt"
     distribution node['lsb']['codename']
     components ['main']
     key "https://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/rsa.pub"
@@ -51,7 +51,7 @@ when 'redhat', 'centos'
   repo_url = if node['platform_version'].to_i > 5
                "http://mirror.centos.org/centos/$releasever/storage/$basearch/gluster-#{node['gluster']['version']}/"
              else
-               "http://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/EPEL.repo/epel-$releasever/$basearch/"
+               "https://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/EPEL.repo/epel-$releasever/$basearch/"
              end
 
   yum_repository 'glusterfs' do
