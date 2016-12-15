@@ -49,8 +49,15 @@ when 'ubuntu'
 when 'redhat', 'centos'
   # CentOS 6 and 7 have Gluster in the Storage SIG instead of a gluster hosted repo
   if node['platform_version'].to_i > 5
-    repo_url = "http://mirror.centos.org/centos/$releasever/storage/$basearch/gluster-#{node['gluster']['version']}/"
-    gpg_url = 'https://raw.githubusercontent.com/CentOS-Storage-SIG/centos-release-storage-common/master/RPM-GPG-KEY-CentOS-SIG-Storage'
+    if Chef::VersionConstraint.new('>= 3.9').include?(node['gluster']['version'])
+      subdomain = 'buildlogs'
+      gpg_url = nil
+    else
+      subdomain = 'mirror'
+      gpg_url = 'https://raw.githubusercontent.com/CentOS-Storage-SIG/centos-release-storage-common/master/RPM-GPG-KEY-CentOS-SIG-Storage'
+    end
+
+    repo_url = "http://#{subdomain}.centos.org/centos/$releasever/storage/$basearch/gluster-#{node['gluster']['version']}/"
   else
     url = "https://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/EPEL.repo"
     repo_url = "#{url}/epel-$releasever/$basearch/"
@@ -60,6 +67,7 @@ when 'redhat', 'centos'
   yum_repository 'glusterfs' do
     baseurl repo_url
     gpgkey gpg_url
+    gpgcheck !gpg_url.nil?
     action :create
   end
 end
