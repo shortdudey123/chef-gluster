@@ -5,8 +5,7 @@ license          'Apache 2.0'
 description      'Installs and configures Gluster servers and clients'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '5.2.0'
-depends          'apt', '>= 2.0'
-depends          'yum', '>= 3.0'
+depends          'compat_resource', '>= 12.14.6'
 depends          'lvm', '>= 1.5.1'
 
 source_url 'https://github.com/shortdudey123/chef-gluster' if respond_to?(:source_url)

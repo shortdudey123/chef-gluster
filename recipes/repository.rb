@@ -20,7 +20,7 @@
 
 case node['platform']
 when 'debian'
-  include_recipe 'apt::default'
+  package 'apt-transport-https'
 
   apt_repository "glusterfs-#{node['gluster']['version']}" do
     uri "https://download.gluster.org/pub/gluster/glusterfs/#{node['gluster']['version']}/LATEST/Debian/#{node['lsb']['codename']}/apt"
@@ -33,8 +33,6 @@ when 'debian'
     end
   end
 when 'ubuntu'
-  include_recipe 'apt::default'
-
   apt_repository "glusterfs-#{node['gluster']['version']}" do
     uri "http://ppa.launchpad.net/gluster/glusterfs-#{node['gluster']['version']}/ubuntu"
     distribution node['lsb']['codename']
