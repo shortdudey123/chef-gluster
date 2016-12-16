@@ -55,9 +55,11 @@ Other attributes include:
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook.
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['filesystem']` - The filesystem to use. This defaults to xfs.
 
-## LWRPs
+## Custom Resources
 
-Use the gluster_mount LWRP to mount volumes on clients:
+### gluster_mount
+
+Use this resource to mount volumes on clients:
 
 ```ruby
 gluster_mount 'volume_name' do
@@ -77,7 +79,7 @@ gluster_mount 'volume_name' do
 end
 ```
 
-### Parameters
+#### Parameters
 
 - `server` - The primary server to fetch the volfile from. Required.
 
@@ -92,6 +94,27 @@ end
 - `group` - Group of the underlying mount point directory. Defaults to `nil`. Optional.
 
 - `mode` - File mode of the underlying mount point directory. Defaults to `nil`. Optional.
+
+### gluster\_volume\_option
+
+Use this resource to set or reset volume options:
+
+```ruby
+gluster_volume_option 'volume_name/changelog.rollover-time' do
+  value 5
+  action :set
+end
+```
+
+```ruby
+gluster_volume_option 'volume_name/changelog.rollover-time' do
+  action :reset
+end
+```
+
+#### Parameters
+
+- `value` - The value to set for the given option. Required for the set action. Booleans are mapped to `on` or `off`.
 
 ## Usage
 

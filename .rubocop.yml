@@ -19,6 +19,10 @@ Metrics/BlockNesting:
 Metrics/BlockLength:
   Enabled: false
 
+Style/AccessorMethodName:
+  Exclude:
+    - 'libraries/matchers.rb'
+
 Style/Next:
   Exclude:
     - 'recipes/server_setup.rb'
