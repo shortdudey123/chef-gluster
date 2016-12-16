@@ -19,12 +19,10 @@
 #
 
 # Client package
-case node['platform']
-when 'ubuntu', 'debian'
-  default['gluster']['client']['package'] = 'glusterfs-client'
-when 'redhat', 'centos'
-  default['gluster']['client']['package'] = 'glusterfs-fuse'
-end
+default['gluster']['client']['package'] = value_for_platform_family(
+  'debian' => 'glusterfs-client',
+  'default' => 'glusterfs-fuse'
+)
 
 # Gluster volumes to mount
 default['gluster']['client']['volumes'] = {}
