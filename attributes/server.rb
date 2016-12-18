@@ -31,6 +31,9 @@ end
 # enable or disable server service
 default['gluster']['server']['enable'] = true
 
+# enable or disable server extending support
+default['gluster']['server']['server_extend_enabled'] = true
+
 # Package dependencies
 case node['platform']
 when 'ubuntu'
