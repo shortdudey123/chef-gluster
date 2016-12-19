@@ -21,7 +21,7 @@
 include_recipe 'gluster::server_install'
 include_recipe 'lvm'
 include_recipe 'gluster::server_setup'
-include_recipe 'gluster::server_extend'
+include_recipe 'gluster::server_extend' if node['gluster']['server']['server_extend_enabled']
 include_recipe 'gluster::volume_extend' if begin
                                              Gem::Specification.find_by_name('di-ruby-lvm')
                                            rescue Gem::LoadError

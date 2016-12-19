@@ -42,6 +42,8 @@ The absolute minimum configuration is:
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook and uses the syntax defined here: https://github.com/chef-cookbooks/lvm .
 
 Other attributes include:
+- `node['gluster']['server']['enable']` - enable or disable server service (default enabled)
+- `node['gluster']['server']['server_extend_enabled']` - enable or disable server extending support (default enabled)
 - `node['gluster']['server']['brick_mount_path']` - default path to use for mounting bricks
 - `node['gluster']['server']['disks']` - an array of disks to create partitions on and format for use with Gluster, (for example, ['/dev/sdb', '/dev/sdc'])
 - `node['gluster']['server']['peer_retries']` - attempt to connect to peers up to N times
