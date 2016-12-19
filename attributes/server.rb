@@ -19,14 +19,11 @@
 #
 
 # Server package and servicename
-case node['platform']
-when 'ubuntu'
-  default['gluster']['server']['package'] = 'glusterfs-server'
-  default['gluster']['server']['servicename'] = 'glusterfs-server'
-when 'redhat', 'centos'
-  default['gluster']['server']['package'] = 'glusterfs-server'
-  default['gluster']['server']['servicename'] = 'glusterd'
-end
+default['gluster']['server']['package'] = 'glusterfs-server'
+default['gluster']['server']['servicename'] = value_for_platform_family(
+  'debian' => 'glusterfs-server',
+  'default' => 'glusterd'
+)
 
 # enable or disable server service
 default['gluster']['server']['enable'] = true
@@ -35,12 +32,7 @@ default['gluster']['server']['enable'] = true
 default['gluster']['server']['server_extend_enabled'] = true
 
 # Package dependencies
-case node['platform']
-when 'ubuntu'
-  default['gluster']['server']['dependencies'] = %w(xfsprogs lvm2)
-when 'redhat', 'centos'
-  default['gluster']['server']['dependencies'] = %w(xfsprogs lvm2)
-end
+default['gluster']['server']['dependencies'] = %w(xfsprogs lvm2)
 
 # Default path to use for mounting bricks
 default['gluster']['server']['brick_mount_path'] = '/gluster'
