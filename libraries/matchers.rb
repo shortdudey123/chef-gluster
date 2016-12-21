@@ -14,4 +14,12 @@ if defined?(ChefSpec)
   def disable_gluster_mount(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:gluster_mount, :disable, resource_name)
   end
+
+  def set_gluster_volume_option(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:gluster_volume_option, :set, resource_name)
+  end
+
+  def reset_gluster_volume_option(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:gluster_volume_option, :reset, resource_name)
+  end
 end
