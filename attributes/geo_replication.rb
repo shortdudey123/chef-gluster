@@ -22,3 +22,14 @@ default['gluster']['geo_replication']['package'] = value_for_platform_family(
   'debian' => 'glusterfs-common',
   'default' => 'glusterfs-geo-replication'
 )
+
+# Debian's 3.9 package is missing the PATH symlink for some reason
+default['gluster']['mountbroker']['command'] = value_for_platform_family(
+  'debian' => '/usr/lib/x86_64-linux-gnu/glusterfs/peer_mountbroker.py',
+  'default' => 'gluster-mountbroker'
+)
+
+# Mountbroker settings
+default['gluster']['mountbroker']['path'] = '/var/mountbroker-root'
+default['gluster']['mountbroker']['group'] = 'geogroup'
+default['gluster']['mountbroker']['users'] = {}
