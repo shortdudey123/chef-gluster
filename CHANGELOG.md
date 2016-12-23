@@ -3,6 +3,7 @@
 ## Unreleased
 - **[PR #82](https://github.com/shortdudey123/chef-gluster/pull/82)** - Add license and fix readme
 - **[PR #84](https://github.com/shortdudey123/chef-gluster/pull/84)** - Allow disable of server extending support
+- **[PR #90](https://github.com/shortdudey123/chef-gluster/pull/90)** - Add parameters for volume_option to README
 
 ## v5.2.0 (2016-12-09)
 - **[PR #77](https://github.com/shortdudey123/chef-gluster/pull/77)** - Allow use gluster recipe on already existed filesystem
