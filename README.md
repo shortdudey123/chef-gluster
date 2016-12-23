@@ -116,7 +116,9 @@ end
 
 #### Parameters
 
+- `key` - Volume option to change. Required. Derived from after the `/` of resource name if not given.
 - `value` - The value to set for the given option. Required for the set action. Booleans are mapped to `on` or `off`.
+- `volume` - Volume to chnage. Required. Derived from before the `/` of resource name if not given.
 
 ## Usage
 
