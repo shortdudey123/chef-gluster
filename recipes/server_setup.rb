@@ -199,5 +199,12 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         not_if "egrep '^features.limit-usage=/:#{volume_values['quota']}$' /var/lib/glusterd/vols/#{volume_name}/info"
       end
     end
+    if volume_values['options']
+      volume_values['options'].each do |option_key, option_value|
+        gluster_volume_option "#{volume_name}/#{option_key}" do
+          value option_value
+        end
+      end
+    end
   end
 end

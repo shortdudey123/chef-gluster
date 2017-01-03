@@ -63,6 +63,7 @@ Other attributes include:
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['volume_type']` - the volume type to use; this value can be 'replicated', 'distributed-replicated', 'distributed', 'striped' or 'distributed-striped'
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook.
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['filesystem']` - The filesystem to use. This defaults to xfs.
+- `node['gluster']['server']['volumes'][VOLUME_NAME]['options']` - Optional options to configure on volume
 
 ## Custom Resources
 
