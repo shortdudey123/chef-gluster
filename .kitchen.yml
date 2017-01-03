@@ -31,6 +31,8 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "replicated"
+              options:
+                network.ping-timeout: 20
 
   - name: shareddisk-replicated2
     driver:
@@ -51,6 +53,8 @@ suites:
                 - "gluster1"
               replica_count: 2
               volume_type: "replicated"
+              options:
+                network.ping-timeout: 20
 
   - name: replicated1
     driver:
