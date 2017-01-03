@@ -1,8 +1,13 @@
 # gluster cookbook CHANGELOG
 
 ## Unreleased
+
+## v5.3.0 (2017-01-03)
 - **[PR #82](https://github.com/shortdudey123/chef-gluster/pull/82)** - Add license and fix readme
+- **[PR #83](https://github.com/shortdudey123/chef-gluster/pull/83)** - Use GPG keys on yum repositories and Support 3.9 on yum via the buildlogs.centos.org testing repo
 - **[PR #84](https://github.com/shortdudey123/chef-gluster/pull/84)** - Allow disable of server extending support
+- **[PR #85](https://github.com/shortdudey123/chef-gluster/pull/85)** - Minor Debian and repository fixes
+- **[PR #86](https://github.com/shortdudey123/chef-gluster/pull/86)** - Add gluster_volume_option custom resource
 - **[PR #90](https://github.com/shortdudey123/chef-gluster/pull/90)** - Add parameters for volume_option to README
 - **[PR #91](https://github.com/shortdudey123/chef-gluster/pull/91)** - Allow specify options as attributes
 
