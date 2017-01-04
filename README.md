@@ -41,6 +41,13 @@ The absolute minimum configuration is:
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['volume_type']` - the volume type to use; this value can be 'replicated', 'distributed-replicated', 'distributed', 'striped' or 'distributed-striped'
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook and uses the syntax defined here: https://github.com/chef-cookbooks/lvm .
 
+### gluster::geo_replication
+Node attributes to specify mountbroker details.
+
+- `node['gluster']['mountbroker]['path']` - The mountbroker path. Defaults to `/var/mountbroker-root`. This does not need to exist beforehand.
+- `node['gluster']['mountbroker]['group']` - The mountbroker group. Defaults to `geogroup`. This will be created as a system group if it does not exist already.
+- `node['gluster']['mountbroker]['users']` - A hash of users to volumes for allowing access. Empty by default. Multiple volumes can be given as an array. Neither the user or volume needs to exist beforehand. Removing entries does not drop access rights, this must be done manually or via the custom resource.
+
 Other attributes include:
 - `node['gluster']['server']['enable']` - enable or disable server service (default enabled)
 - `node['gluster']['server']['server_extend_enabled']` - enable or disable server extending support (default enabled)
@@ -56,6 +63,7 @@ Other attributes include:
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['volume_type']` - the volume type to use; this value can be 'replicated', 'distributed-replicated', 'distributed', 'striped' or 'distributed-striped'
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['size']` - The size of the gluster volume you would like to create, for example, 100M or 5G. This is passed through to the lvm cookbook.
 - `node['gluster']['server']['volumes'][VOLUME_NAME]['filesystem']` - The filesystem to use. This defaults to xfs.
+- `node['gluster']['server']['volumes'][VOLUME_NAME]['options']` - Optional options to configure on volume
 
 ## Custom Resources
 
@@ -116,7 +124,30 @@ end
 
 #### Parameters
 
+- `key` - Volume option to change. Required. Derived from after the `/` of resource name if not given.
 - `value` - The value to set for the given option. Required for the set action. Booleans are mapped to `on` or `off`.
+- `volume` - Volume to chnage. Required. Derived from before the `/` of resource name if not given.
+
+### gluster\_mountbroker\_user
+
+Use this resource to allow or disallow the given user access to the given volume:
+
+```ruby
+gluster_mountbroker_user 'user/volume_name' do
+  action :add
+end
+```
+
+```ruby
+gluster_mountbroker_user 'user/volume_name' do
+  action :remove
+end
+```
+
+#### Parameters
+
+- `user` - The user to grant permission to. Required. Derived from before the `/` of resource name if not given.
+- `volume` - The volume to grant the permission for. Required. Derived from after the `/` of resource name if not given.
 
 ## Usage
 
@@ -162,6 +193,8 @@ default['gluster']['server']['volumes'] = {
 ```
 
 For clients, add the gluster::default or gluster::client recipe to the node's run list, and mount volumes using the `gluster_mount` LWRP. The Gluster volume will be mounted on the next chef-client run (provided the volume exists and is available) and added to /etc/fstab.
+
+This cookbook cannot currently perform all the steps required for geo-replication but it can configure the mountbroker. The `gluster::mountbroker` recipe calls upon the `gluster::geo_replication_install` recipe to install the necessary package before configuring the mountbroker according to the `['gluster']['mountbroker']` attributes. User access can be defined via the attributes or you can use the `gluster_mountbroker_user` custom resource directly. Both the recipe and resource require Gluster 3.9 or later.
 
 ## Testing
 

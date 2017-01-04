@@ -14,5 +14,6 @@ describe 'gluster::server.rb' do
     its(:stdout) { should include('Number of Bricks: 1 x 2 = 2') }
     its(:stdout) { should include('gluster2:/data/gv0/brick') }
     its(:stdout) { should include('gluster1:/data/gv0/brick') }
+    its(:stdout) { should include('network.ping-timeout: 20') }
   end
 end
