@@ -8,5 +8,6 @@ version          '5.3.0'
 depends          'compat_resource', '>= 12.14.6'
 depends          'lvm', '>= 1.5.1'
 
-source_url 'https://github.com/shortdudey123/chef-gluster' if respond_to?(:source_url)
-issues_url 'https://github.com/shortdudey123/chef-gluster/issues' if respond_to?(:issues_url)
+source_url 'https://github.com/shortdudey123/chef-gluster'
+issues_url 'https://github.com/shortdudey123/chef-gluster/issues'
+chef_version '>= 12.1'
