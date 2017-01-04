@@ -1,6 +1,8 @@
 # gluster cookbook CHANGELOG
 
 ## Unreleased
+
+## v6.0.0 (2017-01-03)
 - **[PR #92](https://github.com/shortdudey123/chef-gluster/pull/92)** - Depend on compat_resource instead of apt and yum cookbooks
 - **[PR #93](https://github.com/shortdudey123/chef-gluster/pull/93)** - Drop support for Chef < 12.1
 
