@@ -23,6 +23,18 @@ if defined?(ChefSpec)
     ChefSpec::Matchers::ResourceMatcher.new(:gluster_mountbroker_user, :remove, resource_name)
   end
 
+  def delete_gluster_volume(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:gluster_volume, :delete, resource_name)
+  end
+
+  def start_gluster_volume(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:gluster_volume, :start, resource_name)
+  end
+
+  def stop_gluster_volume(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:gluster_volume, :stop, resource_name)
+  end
+
   def set_gluster_volume_option(resource_name)
     ChefSpec::Matchers::ResourceMatcher.new(:gluster_volume_option, :set, resource_name)
   end
