@@ -67,6 +67,51 @@ Other attributes include:
 
 ## Custom Resources
 
+### gluster_volume
+
+Use this resource to start, stop, or delete volumes:
+
+```ruby
+gluster_volume 'volume_name' do
+  action :start
+end
+```
+
+```ruby
+gluster_volume 'volume_name' do
+  action :stop
+end
+```
+
+```ruby
+gluster_volume 'volume_name' do
+  action :delete
+end
+```
+
+It is also useful for checking existence in `only_if` blocks:
+
+```ruby
+volume = gluster_volume 'volume_name' do
+  action :nothing
+end
+
+some_resource 'foo' do
+  only_if { volume.current_value }
+end
+```
+
+```ruby
+gluster_volume 'volume_name' do
+  action :start
+  only_if { current_value }
+end
+```
+
+#### Parameters
+
+- `volume_name` - The volume name. Defaults to the resource name.
+
 ### gluster_mount
 
 Use this resource to mount volumes on clients:
