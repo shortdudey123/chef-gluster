@@ -47,7 +47,7 @@ when 'ubuntu'
 when 'redhat', 'centos'
   # CentOS 6 and 7 have Gluster in the Storage SIG instead of a gluster hosted repo
   if node['platform_version'].to_i > 5
-    if Chef::VersionConstraint.new('>= 3.9').include?(node['gluster']['version'])
+    if Chef::VersionConstraint.new('>= 3.11').include?(node['gluster']['version'])
       subdomain = 'buildlogs'
       gpg_url = nil
     else
