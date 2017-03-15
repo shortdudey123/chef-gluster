@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## v6.1.0 (unrelased, changes will be released in next version)
+- **[PR #94](https://github.com/shortdudey123/chef-gluster/pull/94)** - Add gluster_volume custom resource
+
 ## v6.0.0 (2017-01-03)
 - **[PR #92](https://github.com/shortdudey123/chef-gluster/pull/92)** - Depend on compat_resource instead of apt and yum cookbooks
 - **[PR #93](https://github.com/shortdudey123/chef-gluster/pull/93)** - Drop support for Chef < 12.1
