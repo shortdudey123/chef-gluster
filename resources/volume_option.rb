@@ -35,9 +35,17 @@ property :value, [String, Integer, TrueClass, FalseClass],
 default_action :set
 
 load_current_value do
-  cmd = shell_out!('gluster', 'volume', 'get', volume, key)
-  value cmd.stdout.chomp.lines.last.split(nil, 2).last.rstrip
-  value nil if value == '(null)'
+  cmd = shell_out('gluster', 'volume', 'get', volume, key)
+
+  case cmd.exitstatus
+  when 0
+    value cmd.stdout.chomp.lines.last.split(nil, 2).last.rstrip
+    value nil if value == '(null)'
+  when 2
+    current_value_does_not_exist!
+  else
+    cmd.error!
+  end
 end
 
 action :set do
@@ -47,8 +55,10 @@ action :set do
 end
 
 action :reset do
-  converge_by ['reset value to default'] do
-    shell_out!('gluster', 'volume', 'reset', volume, key)
+  if current_resource # ~FC023
+    converge_by ['reset value to default'] do
+      shell_out!('gluster', 'volume', 'reset', volume, key)
+    end
   end
 end
 
