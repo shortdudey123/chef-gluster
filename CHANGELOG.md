@@ -1,6 +1,7 @@
 # gluster cookbook CHANGELOG
 
 ## Unreleased
+- **[PR #96](https://github.com/shortdudey123/chef-gluster/pull/96)** - Update kitchen-vagrant
 
 ## v6.1.0 (unrelased, changes will be released in next version)
 - **[PR #94](https://github.com/shortdudey123/chef-gluster/pull/94)** - Add gluster_volume custom resource
