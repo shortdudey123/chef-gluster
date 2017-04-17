@@ -36,6 +36,9 @@ node['gluster']['client']['volumes'].each do |volume_name, volume_values|
     # Ensure the mount point exists
     directory volume_values['mount_point'] do
       recursive true
+      owner volume_values['owner'] unless volume_values['owner'].nil?
+      group volume_values['group'] unless volume_values['group'].nil?
+      mode volume_values['mode'] unless volume_values['mode'].nil?
       action :create
     end
 
