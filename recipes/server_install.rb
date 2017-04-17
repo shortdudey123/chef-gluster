@@ -32,6 +32,7 @@ package node['gluster']['server']['package']
 
 # Make sure the service is started
 service node['gluster']['server']['servicename'] do
+  provider Chef::Provider::Service::Upstart if platform?('ubuntu') && node['platform_version'].to_f >= 13.10
   if node['gluster']['server']['enable']
     action [:enable, :start]
   else
