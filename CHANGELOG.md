@@ -1,7 +1,11 @@
 # gluster cookbook CHANGELOG
 
 ## Unreleased
+- **[PR #94](https://github.com/shortdudey123/chef-gluster/pull/94)** - Add gluster_volume custom resource
 - **[PR #96](https://github.com/shortdudey123/chef-gluster/pull/96)** - Update kitchen-vagrant
+- **[PR #97](https://github.com/shortdudey123/chef-gluster/pull/97)** - Fetch 3.9 and 3.10 RPMs from mirror.centos.org now they're availabl
+- **[PR #98](https://github.com/shortdudey123/chef-gluster/pull/98)** - Fix failure to set initially ungettable volume options like client.ssl
+- **[PR #100](https://github.com/shortdudey123/chef-gluster/pull/100)** - remove `s` in backupvolfile-server in mount provider
 - **[PR #101](https://github.com/shortdudey123/chef-gluster/pull/101)** - Fixup foodcritic and rubocop offenses
 
 ## v6.1.0 (unrelased, changes will be released in next version)
