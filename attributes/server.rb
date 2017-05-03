@@ -32,7 +32,7 @@ default['gluster']['server']['enable'] = true
 default['gluster']['server']['server_extend_enabled'] = true
 
 # Package dependencies
-default['gluster']['server']['dependencies'] = %w(xfsprogs lvm2)
+default['gluster']['server']['dependencies'] = %w[xfsprogs lvm2]
 
 # Default path to use for mounting bricks
 default['gluster']['server']['brick_mount_path'] = '/gluster'

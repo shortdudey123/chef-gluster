@@ -44,21 +44,21 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
     execute "gluster volume add-brick #{volume_name} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
       action :run
     end
-    node.set['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
+    node.normal['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
   elsif volume_values['volume_type'] == 'striped'
     Chef::Log.warn("#{volume_name} is a striped volume, adjusting replica count to match new number of bricks")
-    node.set['gluster']['server']['volumes'][volume_name][replica_count] = brick_count
+    node.normal['gluster']['server']['volumes'][volume_name][replica_count] = brick_count
     execute "gluster volume add-brick #{volume_name} stripe #{brick_count} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
       action :run
     end
-    node.set['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
+    node.normal['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
   elsif volume_values['volume_type'] == 'replicated'
     Chef::Log.warn("#{volume_name} is a replicated volume, adjusting replica count to match new number of bricks")
-    node.set['gluster']['server']['volumes'][volume_name][replica_count] = brick_count
+    node.normal['gluster']['server']['volumes'][volume_name][replica_count] = brick_count
     execute "gluster volume add-brick #{volume_name} replica #{brick_count} #{node['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join']}" do
       action :run
     end
-    node.set['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
+    node.normal['gluster']['server']['volumes'][volume_name]['bricks_waiting_to_join'] = ''
   else
     Chef::Log.warn("There are #{brick_count} bricks waiting to be added to #{volume_name}, but the replica count is #{replica_count}. \
     I will wait until a modulus of the replica count is available. The bricks to be added are #{node['gluster']['server']['bricks_waiting_to_join']}")

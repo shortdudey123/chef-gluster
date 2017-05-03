@@ -116,7 +116,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
           next
         end
         Chef::Log.warn('You have specified replicated, so the attribute replica_count will be set to be the same number as the bricks you have')
-        node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
+        node.normal['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
         options = "replica #{brick_count}"
       when 'distributed-replicated'
         # brick count has to be a multiple of replica count
@@ -129,7 +129,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       when 'striped'
         # This is similar to a replicated volume, stripe count is the same as the number of bricks
         Chef::Log.warn('You have specified striped, so the attribute replica_count will be set to be the same number as the bricks you have')
-        node.set['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
+        node.normal['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
         options = "stripe #{brick_count}"
       when 'distributed-striped'
         if (brick_count % volume_values['replica_count']).nonzero?
@@ -154,7 +154,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
       volume_create_cmd = "gluster volume create #{volume_name} #{options}"
 
       execute 'gluster volume create' do
-        command lazy {
+        command lazy { # rubocop:disable Lint/AmbiguousBlockAssociation
           if force
             "echo y | #{volume_create_cmd} force"
           elsif system("df #{node['gluster']['server']['brick_mount_path']}/#{volume_name}/ --output=target |grep -q '^/$'") && node['gluster']['server']['disks'].empty?
