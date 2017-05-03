@@ -30,3 +30,6 @@ Style/Next:
 Style/MutableConstant:
   Exclude:
     - 'Vagrantfile'
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
