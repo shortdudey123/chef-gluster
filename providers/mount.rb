@@ -85,7 +85,7 @@ def mount_options_for_backup_server
   when String
     ',backupvolfile-server=' + new_resource.backup_server
   when Array
-    ',backupvolfile-servers=' + new_resource.backup_server.join(':')
+    ',backupvolfile-server=' + new_resource.backup_server.join(':')
   end
 end
 
