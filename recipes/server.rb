@@ -23,8 +23,8 @@ include_recipe 'lvm'
 include_recipe 'gluster::server_setup'
 include_recipe 'gluster::server_extend' if node['gluster']['server']['server_extend_enabled']
 include_recipe 'gluster::volume_extend' if begin
-                                             Gem::Specification.find_by_name('di-ruby-lvm')
+                                             Gem::Specification.find_by_name('chef-ruby-lvm')
                                            rescue Gem::LoadError
-                                             Chef::Log.info('not including gluster::volume_extend since di-ruby-lvm was not found')
+                                             Chef::Log.info('not including gluster::volume_extend since chef-ruby-lvm was not found')
                                              return false
                                            end
