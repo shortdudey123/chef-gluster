@@ -118,6 +118,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         Chef::Log.warn('You have specified replicated, so the attribute replica_count will be set to be the same number as the bricks you have')
         node.normal['gluster']['server']['volumes'][volume_name]['replica_count'] = brick_count
         options = "replica #{brick_count}"
+        force = true if brick_count == 2
       when 'distributed-replicated'
         # brick count has to be a multiple of replica count
         if (brick_count % volume_values['replica_count']).nonzero?
