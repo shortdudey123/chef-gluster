@@ -45,6 +45,7 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         logical_volume volume_name do
           size volume_values['size']
           filesystem filesystem
+          filesystem_params volume_values['filesystem_params'] if volume_values.attribute?('filesystem_params')
           mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}",
                       options: node['gluster']['server']['brick_mount_path_option'],
                       dump: node['gluster']['server']['brick_mount_path_dump'],
