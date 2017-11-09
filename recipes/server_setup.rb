@@ -45,7 +45,10 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
         logical_volume volume_name do
           size volume_values['size']
           filesystem filesystem
-          mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}"
+          mount_point "#{node['gluster']['server']['brick_mount_path']}/#{volume_name}",
+                      options: node['gluster']['server']['brick_mount_path_option'],
+                      dump: node['gluster']['server']['brick_mount_path_dump'],
+                      pass: node['gluster']['server']['brick_mount_path_pass']
         end
       end
     else
