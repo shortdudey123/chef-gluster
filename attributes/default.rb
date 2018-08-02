@@ -20,3 +20,4 @@
 
 default['gluster']['version'] = '3.8'
 default['gluster']['repo'] = 'public'
+default['gluster']['version_constraint'] = '>= 3.8'
