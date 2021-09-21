@@ -28,7 +28,7 @@ end
 node['gluster']['server']['volumes'].each do |volume_name, volume_values|
   bricks = []
   # If the node is configured as a peer for the volume, create directories to use as bricks
-  if volume_values['peers'].include?(node['fqdn']) || volume_values['peers'].include?(node['hostname'])
+  if volume_values['peers'].include?(node['fqdn']) || volume_values['peers'].include?(node['hostname']) || volume_values['peers'].include?(node['ipaddress'])
     # Use either configured LVM volumes or default LVM volumes
     # Configure the LV's per gluster volume
     # Each LV is one brick
@@ -67,10 +67,10 @@ node['gluster']['server']['volumes'].each do |volume_name, volume_values|
   end
 
   # Only continue if the node is the first peer in the array
-  if volume_values['peers'].first == node['fqdn'] || volume_values['peers'].first == node['hostname']
+  if [node['fqdn'], node['hostname'], node['ipaddress']].include?(volume_values['peers'].first)
     # Configure the trusted pool if needed
     volume_values['peers'].each do |peer|
-      next if peer == node['fqdn'] || peer == node['hostname']
+      next if [node['fqdn'], node['hostname'], node['ipaddress']].include?(peer)
       execute "gluster peer probe #{peer}" do
         action :run
         not_if "egrep '^hostname.+=#{peer}$' /var/lib/glusterd/peers/*"
