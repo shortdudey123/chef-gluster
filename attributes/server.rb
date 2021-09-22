@@ -36,6 +36,9 @@ default['gluster']['server']['dependencies'] = %w[xfsprogs lvm2]
 
 # Default path to use for mounting bricks
 default['gluster']['server']['brick_mount_path'] = '/gluster'
+default['gluster']['server']['brick_mount_path_option'] = 'default'
+default['gluster']['server']['brick_mount_path_dump'] = 0
+default['gluster']['server']['brick_mount_path_pass'] = 2
 # Gluster volumes to create
 default['gluster']['server']['volumes'] = {}
 # Set by the cookbook once bricks are configured and ready to use
